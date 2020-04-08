@@ -1,0 +1,19 @@
+.banner-image {
+    width: 100%;
+}
+
+.state-input, .btn {
+    width: 200px;
+}
+
+.input-group {
+    position: absolute;
+    top: 200px;
+    /* border: 2px solid lightgray; */
+}
+
+h4 {
+    text-align: center;
+    position: relative;
+    top: 10px;
+}
