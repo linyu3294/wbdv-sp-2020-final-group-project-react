@@ -26,9 +26,9 @@ class RegisterComponent extends React.Component {
         return true;
     }
 
-    createUser() {
-        userService.createUser(this.state.user)
-        .then(actualUser => console.log(actualUser))
+    createUser = (user) => {
+        userService.createUser(user).then(actualUser => console.log(actualUser))
+        this.props.history.push("/profile")
     }
 
     render() {
@@ -113,7 +113,7 @@ class RegisterComponent extends React.Component {
                     </div>
                 </form>
                 </p>
-                <button onClick={() => this.createUser()} type="button" class="btn btn-success">Register</button>
+                <button onClick={() => this.createUser(this.state.user)} type="button" class="btn btn-success">Register</button>
             </div>
         )
     }

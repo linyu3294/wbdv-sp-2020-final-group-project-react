@@ -10,6 +10,7 @@ import {Provider} from "react-redux"
 import ListingDetailComponent from "../../components/ListingDetailComponent";
 import LoginComponent from "../../components/LoginComponent";
 import RegisterComponent from "../../components/RegisterComponent";
+import ProfileComponent from "../../components/ProfileComponent";
 
 const rootReducer = combineReducers({
     listings: listingReducer,
@@ -48,11 +49,22 @@ class ListingSearchContainer extends React.Component{
                     <Route path="/register" exact={true} render={(props) =>
                         <div>
                             <RegisterComponent
+                            history={props.history}
                             />
                         </div>
                     }>
 
                     </Route>
+
+                    <Route path="/profile" exact={true} render={(props) =>
+                        <div>
+                            <ProfileComponent
+                            history={props.history}
+                            />
+                        </div>
+                    }>
+                    </Route>
+
 
                     <Route path="/:cityQuery/:stateQuery" exact={true} render={(props) =>
                         <div>
