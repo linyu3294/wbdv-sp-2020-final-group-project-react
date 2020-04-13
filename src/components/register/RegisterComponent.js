@@ -1,5 +1,5 @@
 import React from "react";
-import userService from '../services/UserService';
+import userService from '../../services/UserService';
 
 class RegisterComponent extends React.Component {
 
@@ -27,8 +27,12 @@ class RegisterComponent extends React.Component {
     }
 
     createUser = (user) => {
-        userService.createUser(user).then(actualUser => console.log(actualUser))
-        this.props.history.push("/profile")
+        userService.createUser(user)
+        .then(actualUser => {
+            console.log(actualUser)
+            this.props.history.push("/profile")
+        })
+        
     }
 
     render() {

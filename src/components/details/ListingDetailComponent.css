@@ -1,0 +1,9 @@
+img {
+    /* object-fit: cover; */
+    height: 100px;
+    width: 100px;
+}
+
+.header-jumbotron {
+    margin-top: 10px;
+}

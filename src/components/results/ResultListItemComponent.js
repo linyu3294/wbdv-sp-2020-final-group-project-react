@@ -23,7 +23,8 @@ class ResultsListItemComponent extends React.Component {
                 <p class="card-text">{this.props.listing.price}</p>
                 {/* <a href="#" class="btn btn-primary">View Listing</a> */}
                 <button>
-                    <Link to={`/${this.props.cityQuery}/${this.props.stateQuery}/${this.props.listing.listing_id}`}><h5>View Listing</h5></Link>
+                    {/* TODO: on refresh, losing access to this.props.listings, need to pass down */}
+                    <Link to={`/${this.props.cityQuery}/${this.props.stateQuery}/${this.props.listing.listing_id}/${this.props.listing.prop_status}/${this.props.listing.property_id}`}><h5>View Listing</h5></Link>
                 </button>
             </div>
             

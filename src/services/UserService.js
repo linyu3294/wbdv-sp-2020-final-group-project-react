@@ -15,7 +15,14 @@ export const getProfile = () =>
         credentials: "include"
     }).then(response => response.json())
 
+export const likeListing = (listingId) =>
+fetch(`http://localhost:8080/api/details/${listingId}`, {
+    method: 'POST',
+    credentials: "include"
+}).then(response => response.json())
+
 export default {
     createUser,
-    getProfile
+    getProfile,
+    likeListing
 }
