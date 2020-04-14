@@ -7,7 +7,6 @@ import "./ListingDetailComponent.css"
 
 class ListingDetailComponent extends React.Component {
 
-
     componentDidMount() {
         SearchService.getAllListings(this.props.city, this.props.state)
                 .then(actualListings => this.setState({
@@ -49,11 +48,12 @@ class ListingDetailComponent extends React.Component {
         ({ property_id, listing_id, prop_status, address, price_raw, beds, baths }))(this.state.listing);
         console.log("sending: ")
         console.log(listingSendObject)
+        listingSendObject.listing_id = parseInt(listingSendObject.listing_id)
 
         ListingService.saveListing(listingSendObject)
         .then(response => {
             console.log(response)
-            return UserService.likeListing(listingId)
+            return UserService.likeListing(listingSendObject.listing_id)
             }).then(response => console.log(response))
     }
 

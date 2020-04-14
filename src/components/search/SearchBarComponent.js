@@ -65,7 +65,7 @@ class SearchBarComponent extends React.Component{
                 {/*    password="123"/>*/}
                 {/*</div>*/}
 
-                <div class="input-group container-fluid">
+                <div className="input-group container-fluid">
                     {console.log("login status = " + this.props.loginStatus)}
                     <input 
                     type="text" className="form-control" aria-label="Text input with dropdown button"
