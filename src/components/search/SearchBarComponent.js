@@ -2,10 +2,10 @@ import React from "react";
 import "./SearchBarComponentStyle.css"
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import SearchService from "../services/SearchService";
-import {findAllListings} from "../actions/searchActions";
-import ResultsListComponent from "./ResultsListComponent";
-import LoginComponent from "./LoginComponent"
+import SearchService from "../../services/SearchService";
+import {findAllListings} from "../../actions/searchActions";
+import ResultsListComponent from "../results/ResultsListComponent";
+import LoginComponent from "../login/LoginComponent"
 
 class SearchBarComponent extends React.Component{
 
@@ -57,7 +57,7 @@ class SearchBarComponent extends React.Component{
             <div id="search-component-div">
                 <div>
                     <img className="banner-image"
-                         src={require('../Rent_match.png')} height="250" alt="img"/>
+                         src={require('../../Rent_match.png')} height="250" alt="img"/>
                 </div>
                 {/*<div>*/}
                 {/*    <LoginComponent*/}
@@ -65,7 +65,7 @@ class SearchBarComponent extends React.Component{
                 {/*    password="123"/>*/}
                 {/*</div>*/}
 
-                <div class="input-group container-fluid">
+                <div className="input-group container-fluid">
                     {console.log("login status = " + this.props.loginStatus)}
                     <input 
                     type="text" className="form-control" aria-label="Text input with dropdown button"

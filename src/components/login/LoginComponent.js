@@ -1,7 +1,7 @@
 import React from "react";
 import LoginComponentStyle from "./LoginComponentStyle.css";
 
-import LoginService from "../services/LoginService";
+import LoginService from "../../services/LoginService";
 import {connect} from "react-redux";
 
 class LoginComponent extends React.Component {
@@ -86,7 +86,7 @@ class LoginComponent extends React.Component {
                                    this.setPassword(e)}/>
                         <a className="forgot-password" href="#">Forgot your password?</a>
                         <br/>
-                        <a className="new-user" href="#">New User? Register here</a>
+                        <a className="new-user" href="/register">New User? Register here</a>
                         <button type="button"
                                 className="btn btn-success"
                                 onClick={() => LoginService.login(this.state.username,

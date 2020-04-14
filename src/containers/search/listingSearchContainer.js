@@ -1,15 +1,16 @@
 import React from "react";
 import {Route} from "react-router-dom";
-import SearchBarComponent from "../../components/SearchBarComponent";
-import ResultsListComponent from "../../components/ResultsListComponent";
+import SearchBarComponent from "../../components/search/SearchBarComponent";
+import ResultsListComponent from "../../components/results/ResultsListComponent";
 import SearchService from "../../services/SearchService";
 import {combineReducers, createStore} from "redux"
 import listingReducer from "../../reducers/listingReducer";
 import loginReducer from "../../reducers/loginReducer"
 import {Provider} from "react-redux"
-import ListingDetailComponent from "../../components/ListingDetailComponent";
-import LoginComponent from "../../components/LoginComponent";
-import RegisterComponent from "../../components/RegisterComponent";
+import ListingDetailComponent from "../../components/details/ListingDetailComponent";
+import LoginComponent from "../../components/login/LoginComponent";
+import RegisterComponent from "../../components/register/RegisterComponent";
+import ProfileComponent from "../../components/profile/ProfileComponent";
 
 const rootReducer = combineReducers({
     listings: listingReducer,
@@ -48,11 +49,22 @@ class ListingSearchContainer extends React.Component{
                     <Route path="/register" exact={true} render={(props) =>
                         <div>
                             <RegisterComponent
+                            history={props.history}
                             />
                         </div>
                     }>
 
                     </Route>
+
+                    <Route path="/profile" exact={true} render={(props) =>
+                        <div>
+                            <ProfileComponent
+                            history={props.history}
+                            />
+                        </div>
+                    }>
+                    </Route>
+
 
                     <Route path="/:cityQuery/:stateQuery" exact={true} render={(props) =>
                         <div>
@@ -73,10 +85,14 @@ class ListingSearchContainer extends React.Component{
 
                     </Route>
 
-                    <Route path="/:cityQuery/:stateQuery/:listingId" exact={true} render={(props) =>
+                    <Route path="/:cityQuery/:stateQuery/:listingId/:propStatus/:propertyId" exact={true} render={(props) =>
                         <ListingDetailComponent
                         listings={this.props.listings}
+                        city={props.match.params.cityQuery}
+                        state={props.match.params.stateQuery}
                         listingId={props.match.params.listingId}
+                        propStatus={props.match.params.propStatus}
+                        propertyId={props.match.params.propertyId}
                         />
                     }
                     >
