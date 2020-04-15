@@ -91,6 +91,18 @@ class ListingDetailComponent extends React.Component {
                         <div className="col-sm-6">
                             
                             <div className="row">
+                                	<iframe
+                                        width="600"
+                                        height="450"
+                                        frameborder="0" style={{border:0}}
+                                        src={`https://www.google.com/maps/embed/v1/streetview?key=AIzaSyC75gsTAWrMRR9ErLo2jwakIk-uHMu9378&location=${this.state.listing.lat},${this.state.listing.lon}`} allowfullscreen>
+                                    </iframe>
+                                	<iframe
+                                        width="600"
+                                        height="450"
+                                        frameborder="0" style={{border:0}}
+                                        src={`https://maps.google.com/?q=${this.state.listing.lat},${this.state.listing.lon}&output=svembed`} allowfullscreen>
+                                    </iframe>
                                 <img 
                                 src={this.state.listingInfo.listing.photo.href}
                                 alt="Property image"

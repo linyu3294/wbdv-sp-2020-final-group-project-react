@@ -29,8 +29,13 @@ class RegisterComponent extends React.Component {
     createUser = (user) => {
         userService.createUser(user)
         .then(actualUser => {
+            console.log("createUser response:")
             console.log(actualUser)
+            if (actualUser.username == "username already taken!!") {
+                alert("That username is already taken! Try again.")
+            } else {
             this.props.history.push("/profile")
+            }
         })
         
     }
