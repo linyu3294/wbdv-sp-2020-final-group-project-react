@@ -12,6 +12,7 @@ import LoginComponent from "../../components/login/LoginComponent";
 import RegisterComponent from "../../components/register/RegisterComponent";
 import ProfileComponent from "../../components/profile/ProfileComponent";
 import PrivacyPageComponent from "../../components/privacy/PrivacyPageComponent";
+import HomeComponent from "../../components/home/HomeComponent";
 
 const rootReducer = combineReducers({
     listings: listingReducer,
@@ -68,6 +69,14 @@ class ListingSearchContainer extends React.Component{
                         <div>
                             <ProfileComponent
                             history={props.history}
+                            />
+                        </div>
+                    }>
+                    </Route>
+                    <Route path="/home" exact={true} render={(props) =>
+                        <div>
+                            <HomeComponent
+                                history={props.history}
                             />
                         </div>
                     }>
