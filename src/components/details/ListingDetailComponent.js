@@ -108,19 +108,14 @@ class ListingDetailComponent extends React.Component {
                                 alt="Property image"
                                 />
                             </div>
-
                             <div className="row">
                                 {this.state.listingInfo.listing.photos.map(photo => (
                                 <img src={photo.href}/>
                                 ))}
                             </div>
                         </div>
-                                   
-
-
                     </div>
                 }
-                
             </div>
         )
     }

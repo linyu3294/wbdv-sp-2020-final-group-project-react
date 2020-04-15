@@ -29,7 +29,7 @@ class ListingSearchContainer extends React.Component{
         return (
             <Provider store={store}>
                 <div>
-                    <Route path="/" exact={true} render={(props) =>
+                    <Route path="/search" exact={true} render={(props) =>
                         <div>
                             <SearchBarComponent
                                 // updateForm={this.updateForm}
@@ -73,7 +73,7 @@ class ListingSearchContainer extends React.Component{
                         </div>
                     }>
                     </Route>
-                    <Route path="/home" exact={true} render={(props) =>
+                    <Route path="/" exact={true} render={(props) =>
                         <div>
                             <HomeComponent
                                 history={props.history}

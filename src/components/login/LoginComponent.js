@@ -36,10 +36,12 @@ class LoginComponent extends React.Component {
     }
 
     handleLogin = (response) => {
-        this.setState({status: response.status})
-        if (this.state.status === 'true') {
+        console.log(response)
+        //this.setState({status: response.status})
+        if (response) {
             this.props.history.push('/')
         } else {
+
             this.rejectMessage()
         }
     }

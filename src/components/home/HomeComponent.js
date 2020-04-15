@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {BrowserRouter as router, route} from "react-router-dom";
 import "./HomeComponent.css"
+import UserService from "../../services/UserService";
 
 class HomeComponent extends React.Component {
     constructor(props) {
@@ -9,7 +10,16 @@ class HomeComponent extends React.Component {
     }
 
     state = {
-        username: 'Ben'
+        username: 'Ben',
+        profile: {}
+    }
+
+    componentDidMount() {
+        UserService.getProfile().then(actualResponse => {
+            this.setState({profile: actualResponse})
+            console.log("here in component did mount.")
+            console.log(actualResponse)
+        })
     }
 
     // {this.state.username && <h1>Welcome {this.state.username}</h1>}
@@ -37,6 +47,7 @@ class HomeComponent extends React.Component {
                                 values). Similarly, this platform allows landlords to search for
                                 potential renters as well as get an idea of what the renting climate
                                 is like in their location based on other listings.</p>
+                            {}
                             <a href="/login">
                                 <button className="btn btn-primary btn-lg" href="#"
                                         role="button">Login
