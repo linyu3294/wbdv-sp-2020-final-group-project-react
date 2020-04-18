@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {BrowserRouter as router, route} from "react-router-dom";
 import "./HomeComponent.css"
 import UserService from "../../services/UserService";
+import LoginService from "../../services/LoginService";
 
 class HomeComponent extends React.Component {
     constructor(props) {
@@ -10,16 +11,24 @@ class HomeComponent extends React.Component {
     }
 
     state = {
-        username: 'Ben',
         profile: {}
     }
 
-    componentDidMount() {
+    getUserProfile = () => {
         UserService.getProfile().then(actualResponse => {
             this.setState({profile: actualResponse})
-            console.log("here in component did mount.")
-            console.log(actualResponse)
         })
+    }
+
+    componentDidMount() {
+        this.getUserProfile()
+    }
+
+    logout = () => {
+        LoginService.logout()
+        .then(this.setState({
+            profile: {}
+        }))
     }
 
     // {this.state.username && <h1>Welcome {this.state.username}</h1>}
@@ -27,14 +36,30 @@ class HomeComponent extends React.Component {
 
     render() {
         return (
-            <div class="container">
-                <div class="logo-box">
+            <div className="container">
+                <div className="logo-box">
                     <img src={require('./logo.png')} className="logo" alt="img"/>
+                    {
+                        this.state.profile.userId && 
+                        <button onClick={() => this.logout()} 
+                            className="btn btn-danger btn-md logout-button" 
+                            href="#"
+                            role="button">Log out
+                        </button>
+                    }
                 </div>
-                <div class="row">
-                    <div class="col-12">
+                <div className="row">
+                    <div className="col-12">
                         <div className="jumbotron">
-                            <h1 className="display-4">Welcome {this.state.username}</h1>
+                            {
+                                this.state.profile.username != null && 
+                                <h1 className="display-4">Welcome, {this.state.profile.username}!</h1>
+                            }
+                            {
+                                this.state.profile.username == null && 
+                                <h1 className="display-4">Welcome, Guest!</h1>
+                            }
+                            
                             <p className="lead">Find your perfect home with a landlord you like</p>
                             <hr className="my-4"/>
                             <p>A large subset of the housing population is renters and landlords.
@@ -47,30 +72,58 @@ class HomeComponent extends React.Component {
                                 values). Similarly, this platform allows landlords to search for
                                 potential renters as well as get an idea of what the renting climate
                                 is like in their location based on other listings.</p>
-                            {}
-                            <a href="/login">
-                                <button className="btn btn-primary btn-lg" href="#"
+                            {
+                            this.state.profile.username == null && 
+                            <div className="row">
+                            <a className="col-sm-2" href="/login">
+                                <button className="btn btn-primary btn-md" href="#"
                                         role="button">Login
                                 </button>
                             </a>
-                            <span class="col-3"/>
-                            <a href="/register">
-                                <button className="btn btn-secondary btn-lg" href="#"
+                            <a className="col-sm-2" href="/register">
+                                <button className="btn btn-secondary btn-md" href="#"
                                         role="button">Register
                                 </button>
                             </a>
-                            <a href="/search">
-                                <span className="col-3"/>
-                                <button href="/search" className="btn btn-success btn-lg" href="#"
+                            <a className="col-sm-2" href="/search">
+                                <button href="/search" className="btn btn-success btn-md" href="#"
                                         role="button">Go to search
                                 </button>
                             </a>
-                            <span className="col-3"/>
-                            <a href="/profile">
-                                <button className="btn btn-dark btn-lg" href="#"
+                            <a className="col-sm-2" href="/profile">
+                                <button className="btn btn-dark btn-md" href="#"
                                         role="button">Go to profile
                                 </button>
                             </a>
+                            <a className="col-sm-2" href="/privacy">
+                                <button className="btn btn-warning btn-md" href="#"
+                                        role="button">Privacy statement
+                                </button>
+                            </a>
+                            </div>
+                            }
+
+                            {
+                                this.state.profile.username != null && 
+                                <div className="row">
+                                <a className="col-sm-4" href="/search">
+                                    <button href="/search" className="btn btn-success btn-md" href="#"
+                                            role="button">Go to search
+                                    </button>
+                                </a>
+                                <a className="col-sm-4" href="/profile">
+                                    <button className="btn btn-dark btn-md" href="#"
+                                            role="button">Go to profile
+                                    </button>
+                                </a>
+                                <a className="col-sm-4" href="/privacy">
+                                    <button className="btn btn-warning btn-md" href="#"
+                                            role="button">Privacy statement
+                                    </button>
+                                </a>
+                                </div>
+                            }
+
                         </div>
                     </div>
                 </div>

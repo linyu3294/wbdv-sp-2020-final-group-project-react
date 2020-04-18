@@ -21,8 +21,19 @@ fetch(`http://localhost:8080/api/details/${listingId}`, {
     credentials: "include"
 }).then(response => response.json())
 
+export const updateProfile = (profile) =>
+fetch(`http://localhost:8080/api/profile`, {
+    method: "PUT",
+    body: JSON.stringify(profile),
+    headers: {
+        'content-type': 'application/json'
+    },
+    credentials: "include"
+}).then(response => response.json())
+
 export default {
     createUser,
     getProfile,
-    likeListing
+    likeListing,
+    updateProfile
 }

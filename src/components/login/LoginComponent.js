@@ -35,16 +35,26 @@ class LoginComponent extends React.Component {
         )
     }
 
-    handleLogin = (response) => {
-        console.log(response)
-        //this.setState({status: response.status})
-        if (response) {
-            this.props.history.push('/')
-        } else {
-
-            this.rejectMessage()
-        }
+    login = () => {
+        LoginService.login(this.state.username, this.state.password)
+            .then(response => {
+                if (response) {
+                    this.props.history.push('/')
+                } else {
+                    this.rejectMessage()
+                }
+                })
     }
+
+    // handleLogin = (response) => {
+    //     console.log(response)
+    //     //this.setState({status: response.status})
+    //     if (response) {
+    //         this.props.history.push('/')
+    //     } else {
+    //         this.rejectMessage()
+    //     }
+    // }
 
     rejectMessage = () => {
         return (
@@ -91,9 +101,7 @@ class LoginComponent extends React.Component {
                         <a className="new-user" href="/register">New User? Register here</a>
                         <button type="button"
                                 className="btn btn-success"
-                                onClick={() => LoginService.login(this.state.username,
-                                                                  this.state.password)
-                                    .then(response => this.handleLogin(response))}>
+                                onClick={() => this.login()}>
                             Login
                         </button>
                         {/*{this.state.status === 'false' && this.rejectMessage()}*/}
