@@ -43,6 +43,7 @@ class RegisterComponent extends React.Component {
     render() {
         return (
             <div class="jumbotron">
+                <a href="/">Home</a>
                 <h1 class="display-4">Register for RentMatch</h1>
                 <p class="lead">Enter your name, email, phone, and 
                 whether you are a renter or a landlord to get going.</p>

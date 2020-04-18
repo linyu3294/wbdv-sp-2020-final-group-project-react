@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import SearchService, {getListingDetails} from "../../services/SearchService";
 import UserService from "../../services/UserService";
 import ListingService from "../../services/ListingService";
+import LoginService from "../../services/LoginService";
 import "./ListingDetailComponent.css"
 
 class ListingDetailComponent extends React.Component {
@@ -32,12 +33,30 @@ class ListingDetailComponent extends React.Component {
             listingInfo: response,
         }))
 
+        this.getUserProfile()
+
     }
 
     state = {
+        profile: {},
         listings: [],
         listing: {},
         listingInfo:{}
+    }
+
+    getUserProfile = () => {
+        UserService.getProfile().then(actualResponse => {
+            this.setState({profile: actualResponse})
+            console.log(actualResponse)
+            console.log(this.state.profile)
+        })
+    }
+
+    logout = () => {
+        LoginService.logout()
+        .then(this.setState({
+            profile: {}
+        }))
     }
 
     userLikeListing = (listingId) => {
@@ -60,8 +79,16 @@ class ListingDetailComponent extends React.Component {
     render() {
         return (
             <div className="container-fluid">
-
+                <a href="/">Home</a>
                 <div class="jumbotron jumbotron-fluid header-jumbotron">
+                {
+                        this.state.profile.userId &&  
+                        <button onClick={() => this.logout()} 
+                            className="btn btn-danger btn-md logout-button" 
+                            href="#"
+                            role="button">Log out
+                        </button>
+                    }
                     <div class="container">
                         <h1 class="display-4"><h1>Listing details</h1></h1>
                         <p class="lead">See out more of this listing.</p>

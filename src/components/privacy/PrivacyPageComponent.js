@@ -6,6 +6,7 @@ class PrivacyPageComponent extends React.Component {
     render() {
         return (
             <div class="jumbotron">
+                <a href="/">Home</a>
                 <h1 class="display-4">Privacy</h1>
                 <p class="lead">Please read our privacy practices to get a better idea of how we use
                 your data on our platform.</p>

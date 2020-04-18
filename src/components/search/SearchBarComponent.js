@@ -5,7 +5,9 @@ import {connect} from "react-redux";
 import SearchService from "../../services/SearchService";
 import {findAllListings} from "../../actions/searchActions";
 import ResultsListComponent from "../results/ResultsListComponent";
-import LoginComponent from "../login/LoginComponent"
+import LoginComponent from "../login/LoginComponent";
+import UserService from '../../services/UserService';
+import LoginService from "../../services/LoginService";
 
 class SearchBarComponent extends React.Component{
 
@@ -15,15 +17,7 @@ class SearchBarComponent extends React.Component{
 
     componentDidMount() {
         console.log(this.props.listings)
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        // if(prevProps.query != this.props.query){
-        //     prevProps.handleSearch(this.state.searchCity, this.state.searchState)
-        // }
-        // console.log(this.state.searchCity)
-        // console.log(this.state.searchState)
-        // console.log(this.props.listings)
+        this.getUserProfile()
     }
 
     setSearchCity = (e) => {
@@ -47,23 +41,41 @@ class SearchBarComponent extends React.Component{
         // console.log(this.props.listings)
     }
 
+    getUserProfile = () => {
+        UserService.getProfile().then(actualResponse => {
+            this.setState({profile: actualResponse})
+        })
+    }
+
+    logout = () => {
+        LoginService.logout()
+        .then(this.setState({
+            profile: {}
+        }))
+    }
+
     state = {
         searchCity: "",
-        searchState: "AL"
+        searchState: "AL",
+        profile: {}
     }
 
     render() {
         return (
             <div id="search-component-div">
+                <a href="/">Home</a>
                 <div>
                     <img className="banner-image"
                          src={require('../../Rent_match.png')} height="250" alt="img"/>
+                    {
+                        this.state.profile.userId && 
+                        <button onClick={() => this.logout()} 
+                            className="btn btn-danger btn-md logout-button" 
+                            href="#"
+                            role="button">Log out
+                        </button>
+                    }
                 </div>
-                {/*<div>*/}
-                {/*    <LoginComponent*/}
-                {/*    username="123"*/}
-                {/*    password="123"/>*/}
-                {/*</div>*/}
 
                 <div className="input-group container-fluid">
                     {console.log("login status = " + this.props.loginStatus)}
