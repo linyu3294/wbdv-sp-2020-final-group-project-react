@@ -22,7 +22,7 @@ class ListingDetailComponent extends React.Component {
                     this.setState({
                         listing: pageListing[0]
                     })
- 
+
                 }
                 )
         
@@ -33,6 +33,23 @@ class ListingDetailComponent extends React.Component {
             listingInfo: response,
         }))
 
+        let ll = UserService.findLandlords()
+
+        ll.then(landLordList => this.setState({
+                landLords: landLordList
+        })).then(r => { console.log(this.state.landLords)})
+
+
+        fetch('https://randomuser.me/api/?nat=us')
+            .then(response => response.json())
+            .then(ru => this.setState({
+                randoUser: ru.results[0],
+                randoUserPic: ru.results[0].picture.large
+            })).then(print => {
+                console.log(this.state.randoUser)
+                console.log(this.state.randoUserPic)
+            })
+
         this.getUserProfile()
 
     }
@@ -41,7 +58,11 @@ class ListingDetailComponent extends React.Component {
         profile: {},
         listings: [],
         listing: {},
-        listingInfo:{}
+        listingInfo:{},
+        landLords:[],
+        landLord:{}
+        // randoUser: {},
+        // randoUserPic: ''
     }
 
     getUserProfile = () => {
@@ -143,6 +164,13 @@ class ListingDetailComponent extends React.Component {
                         </div>
                     </div>
                 }
+
+                {this.state.randoUser &&
+                <div>
+                    <h1>Landlord</h1>
+                    <h3>{this.state.randoUser.gender}</h3>
+                    <img src={this.state.randoUserPic}/>
+                </div>}
             </div>
         )
     }

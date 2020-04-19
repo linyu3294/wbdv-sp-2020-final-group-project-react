@@ -31,9 +31,14 @@ fetch(`http://localhost:8080/api/profile`, {
     credentials: "include"
 }).then(response => response.json())
 
+export const findLandlords = () =>
+    fetch(`http://localhost:8080/api/landlords`)
+        .then(response => response.json())
+
 export default {
     createUser,
     getProfile,
     likeListing,
-    updateProfile
+    updateProfile,
+    findLandlords
 }
