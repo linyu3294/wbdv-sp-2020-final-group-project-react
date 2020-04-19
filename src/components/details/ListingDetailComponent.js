@@ -26,7 +26,7 @@ class ListingDetailComponent extends React.Component {
                 }
                 )
 
-        let details = SearchService.getListingDetails(this.props.listingId, this.props.propStatus, this.props.propertyId)
+    let details = SearchService.getListingDetails(this.props.listingId, this.props.propStatus, this.props.propertyId)
         
         details.then(response => this.setState({
             listingInfo: response,

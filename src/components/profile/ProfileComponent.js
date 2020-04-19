@@ -306,6 +306,7 @@ class ProfileComponent extends React.Component {
                             </div>
                         </div>
                 </div>
+
             </div>
             }
             </Fragment>
@@ -313,15 +314,15 @@ class ProfileComponent extends React.Component {
         </Fragment>          
         )
     }
+
 }
 
 export default ProfileComponent
 
+  // {/* <input type="file"
+  //     id="avatar" name="avatar"
+  //     accept="image/png, image/jpeg"
+  //     onChange={(e) => this.state.photo = e.target.value}/>
 
+  // <img src={this.state.photo} alt="Profile Picture"></img> */}
 
-                // {/* <input type="file"
-                //     id="avatar" name="avatar"
-                //     accept="image/png, image/jpeg"
-                //     onChange={(e) => this.state.photo = e.target.value}/>
-
-                // <img src={this.state.photo} alt="Profile Picture"></img> */}
