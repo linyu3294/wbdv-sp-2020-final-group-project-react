@@ -57,9 +57,9 @@ class ProfileComponent extends React.Component {
                 <h1 className="display-4">Hi, {this.state.profile.firstName}!</h1>
                 
                 {
-                    this.state.profile.userId && 
-                    <button onClick={() => this.logout()} 
-                        className="btn btn-danger btn-md logout-button" 
+                    this.state.profile.userId &&
+                    <button onClick={() => this.logout()}
+                        className="btn btn-danger btn-md logout-button"
                         href="#"
                         role="button">Log out
                     </button>
@@ -139,10 +139,11 @@ class ProfileComponent extends React.Component {
                 </form>
                 }
                 </p>
-                <a href="/">Go to search</a>
+                <a href="/search">Go to search</a>
             </div>
         )
     }
+
 }
 
 export default ProfileComponent
