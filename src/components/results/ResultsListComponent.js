@@ -12,8 +12,8 @@ class ResultsListComponent extends React.Component {
 
     componentDidMount() {
         this.props.findAllListings(this.props.cityQuery, this.props.stateQuery)
-        // console.log("this is from did mount listings are")
-        // console.log(this.props.listings)
+         console.log("this is from did mount listings are")
+         console.log(this.props.listings)
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
