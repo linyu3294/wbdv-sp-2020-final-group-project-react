@@ -13,6 +13,7 @@ import RegisterComponent from "../../components/register/RegisterComponent";
 import ProfileComponent from "../../components/profile/ProfileComponent";
 import PrivacyPageComponent from "../../components/privacy/PrivacyPageComponent";
 import HomeComponent from "../../components/home/HomeComponent";
+import CreateListingComponent from "../../components/create-listing/CreateListingComponent";
 
 const rootReducer = combineReducers({
     listings: listingReducer,
@@ -126,6 +127,10 @@ class ListingSearchContainer extends React.Component{
                         />
                     }
                     >
+                    </Route>
+
+                    <Route path={"/createlisting"}>
+                        <CreateListingComponent/>
                     </Route>
                 </div>
             </Provider>
