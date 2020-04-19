@@ -24,3 +24,34 @@
 .col-sm-2 {
     margin-left: 25px;
 }
+
+.slide-container {
+    width: 70%;
+    margin: auto; }
+
+h3 {
+    text-align: center; }
+
+.each-slide > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    height: 300px;
+}
+
+.home-image
+{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 200%;
+    height: 500px;
+    top:10px;
+}
+.each-slide span {
+    padding: 20px;
+    font-size: 20px;
+    background: #efefef;
+    text-align: center;
+}

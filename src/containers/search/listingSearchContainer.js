@@ -70,10 +70,23 @@ class ListingSearchContainer extends React.Component{
                         <div>
                             <ProfileComponent
                             history={props.history}
+                            visitor={false}
                             />
                         </div>
                     }>
                     </Route>
+
+                    <Route path="/profile/:profileId" exact={true} render={(props) =>
+                        <div>
+                            <ProfileComponent
+                            history={props.history}
+                            visitor={true}
+                            profileId={props.match.params.profileId}
+                            />
+                        </div>
+                    }>
+                    </Route>
+
                     <Route path="/" exact={true} render={(props) =>
                         <div>
                             <HomeComponent
@@ -84,7 +97,7 @@ class ListingSearchContainer extends React.Component{
                     </Route>
 
 
-                    <Route path="/:cityQuery/:stateQuery" exact={true} render={(props) =>
+                    <Route path="/search/:cityQuery/:stateQuery" exact={true} render={(props) =>
                         <div>
                             <SearchBarComponent
                                 loginStatus={this.props.loginStatus} //contains login state
@@ -103,7 +116,7 @@ class ListingSearchContainer extends React.Component{
 
                     </Route>
 
-                    <Route path="/:cityQuery/:stateQuery/:listingId/:propStatus/:propertyId" exact={true} render={(props) =>
+                    <Route path="/search/:cityQuery/:stateQuery/:listingId/:propStatus/:propertyId" exact={true} render={(props) =>
                         <ListingDetailComponent
                         listings={this.props.listings}
                         city={props.match.params.cityQuery}

@@ -36,7 +36,7 @@ class SearchBarComponent extends React.Component{
     )}
 
     handleSearchSubmission = () => {
-        this.props.history.push(`/${this.state.searchCity}/${this.state.searchState}`)
+        this.props.history.push(`/search/${this.state.searchCity}/${this.state.searchState}`)
         // this.props.findAllListings(this.state.searchCity, this.state.searchState)
         // console.log(this.props.listings)
     }
