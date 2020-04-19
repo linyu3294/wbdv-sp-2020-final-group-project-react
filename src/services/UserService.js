@@ -15,6 +15,12 @@ export const getProfile = () =>
         credentials: "include"
     }).then(response => response.json())
 
+export const getProfileForGuest = (profileId) =>
+fetch(`http://localhost:8080/api/profile/${profileId}`, {
+    method: 'GET',
+    credentials: "include"
+}).then(response => response.json())
+
 export const likeListing = (listingId) =>
 fetch(`http://localhost:8080/api/details/${listingId}`, {
     method: 'POST',
@@ -40,5 +46,7 @@ export default {
     getProfile,
     likeListing,
     updateProfile,
-    findLandlords
+    findLandlords,
+    getProfileForGuest
+
 }
