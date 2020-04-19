@@ -16,15 +16,15 @@ class ResultsListItemComponent extends React.Component {
     //    </div>
     <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
 
-       <div class="card">
-            <img class="card-img-top" src={this.props.listing.photo} alt="Card image cap"/>
-            <div class="card-body">
-                <h6 class="card-title">{this.props.listing.address}</h6>
-                <p class="card-text">{this.props.listing.price}</p>
+       <div className="card">
+            <img className="card-img-top" src={this.props.listing.photo} alt="Card image cap"/>
+            <div className="card-body">
+                <h6 className="card-title">{this.props.listing.address}</h6>
+                <p className="card-text">{this.props.listing.price}</p>
                 {/* <a href="#" class="btn btn-primary">View Listing</a> */}
                 <button>
                     {/* TODO: on refresh, losing access to this.props.listings, need to pass down */}
-                    <Link to={`/${this.props.cityQuery}/${this.props.stateQuery}/${this.props.listing.listing_id}/${this.props.listing.prop_status}/${this.props.listing.property_id}`}><h5>View Listing</h5></Link>
+                    <Link to={`/search/${this.props.cityQuery}/${this.props.stateQuery}/${this.props.listing.listing_id}/${this.props.listing.prop_status}/${this.props.listing.property_id}`}><h5>View Listing</h5></Link>
                 </button>
             </div>
             

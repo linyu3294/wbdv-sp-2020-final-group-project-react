@@ -22,10 +22,9 @@ class ListingDetailComponent extends React.Component {
                     this.setState({
                         listing: pageListing[0]
                     })
- 
+                    this.getUserProfile()
                 }
                 )
-        
 
         let details = SearchService.getListingDetails(this.props.listingId, this.props.propStatus, this.props.propertyId)
         
@@ -33,22 +32,30 @@ class ListingDetailComponent extends React.Component {
             listingInfo: response,
         }))
 
-        this.getUserProfile()
-
     }
 
     state = {
         profile: {},
         listings: [],
         listing: {},
-        listingInfo:{}
+        listingInfo:{},
+        userLikesThisListing: false
+    }
+
+    checkIfUserLikedListing() {
+        this.state.profile.likedListings.forEach((element, index, array) => {
+            if ((element.listing_id + "") === this.state.listing.listing_id) {
+                this.setState({
+                    userLikesThisListing: true
+                })
+            }
+        })
     }
 
     getUserProfile = () => {
         UserService.getProfile().then(actualResponse => {
             this.setState({profile: actualResponse})
-            console.log(actualResponse)
-            console.log(this.state.profile)
+            this.checkIfUserLikedListing()
         })
     }
 
@@ -61,10 +68,11 @@ class ListingDetailComponent extends React.Component {
 
     userLikeListing = (listingId) => {
 
-        // Create a cleaner version of listing to send to save in database
         const listingSendObject = 
-        (({ property_id, listing_id, prop_status, address, price_raw, beds, baths }) => 
-        ({ property_id, listing_id, prop_status, address, price_raw, beds, baths }))(this.state.listing);
+        (({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }) => 
+        ({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }))(this.state.listing);
+        listingSendObject['city'] = this.props.city
+        listingSendObject['state'] = this.props.state
         console.log("sending: ")
         console.log(listingSendObject)
         listingSendObject.listing_id = parseInt(listingSendObject.listing_id)
@@ -106,12 +114,17 @@ class ListingDetailComponent extends React.Component {
 
 
                         <div className="col-sm-6">
-                            <div class="jumbotron bg-dark text-white">
-                                <div class="container">
-                                    <h1 class="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>
-                                    <p class="lead">{this.state.listing.address}</p>
-                                    <button onClick={() => this.userLikeListing(this.props.listingId)} class="btn btn-warning">Like this listing</button>
-                                </div>
+                            <div className="jumbotron bg-dark text-white">
+                                <div className="container">
+                                    <h1 className="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>
+                                    <p className="lead">{this.state.listing.address}</p>
+                                    { this.state.userLikesThisListing === false &&
+                                    <button onClick={() => this.userLikeListing(this.props.listingId)} className="btn btn-warning">Like this listing</button>
+                                    }
+                                    { this.state.userLikesThisListing === true &&
+                                        <button className="btn btn-warning">You Like This Listing!</button>
+                                    }
+                                    </div>
                             </div>
                         </div>
 
