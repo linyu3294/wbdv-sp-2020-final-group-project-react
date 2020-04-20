@@ -11,7 +11,7 @@ export const findSimilarListings = async (zipCode, listingId) => {
         }
     })
         .then(response => response.json())
-        .then(actualResponse => actualResponse["listings"])
+        // .then(actualResponse => actualResponse["listings"])  //From Josh's code... was causing errors
         .catch(err => {
                 console.log(err);
             }

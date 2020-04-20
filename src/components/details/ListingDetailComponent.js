@@ -5,6 +5,7 @@ import UserService from "../../services/UserService";
 import ListingService from "../../services/ListingService";
 import LoginService from "../../services/LoginService";
 import "./ListingDetailComponent.css"
+import HomeService from "../../services/HomeService";
 
 class ListingDetailComponent extends React.Component {
 
@@ -15,6 +16,7 @@ class ListingDetailComponent extends React.Component {
                 })).then(response => {
                     console.log("in this.state.listings")
                     console.log(this.state.listings)
+                    console.log(this.props.listingId)
                     let pageListing = this.state.listings.filter(listing =>
                         listing.listing_id === this.props.listingId)
                         console.log(pageListing)
@@ -22,11 +24,10 @@ class ListingDetailComponent extends React.Component {
                     this.setState({
                         listing: pageListing[0]
                     })
-
                     this.getUserProfile()
-
                 }
                 )
+
 
     let details = SearchService.getListingDetails(this.props.listingId, this.props.propStatus, this.props.propertyId)
         
@@ -56,11 +57,13 @@ class ListingDetailComponent extends React.Component {
         SearchService.getStoredListingById(this.props.listingId)
             .then(response => console.log(response))
 
+
     }
 
     state = {
         profile: {},
         listings: [],
+        suggestedListing: {},
         listing: {},
         listingInfo:{},
         landLords:[],
@@ -103,8 +106,10 @@ class ListingDetailComponent extends React.Component {
         ({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }))(this.state.listing);
         listingSendObject['city'] = this.props.city
         listingSendObject['state'] = this.props.state
+
         console.log("sending: ")
         console.log(listingSendObject)
+
         listingSendObject.listing_id = parseInt(listingSendObject.listing_id)
 
         ListingService.saveListing(listingSendObject)
@@ -144,6 +149,7 @@ class ListingDetailComponent extends React.Component {
 
 
                         <div className="col-sm-6">
+
                             <div className="jumbotron bg-dark text-white">
                                 <div className="container">
                                     <h1 className="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>

@@ -2,7 +2,6 @@ import React from "react";
 import {Route} from "react-router-dom";
 import SearchBarComponent from "../../components/search/SearchBarComponent";
 import ResultsListComponent from "../../components/results/ResultsListComponent";
-import SearchService from "../../services/SearchService";
 import {combineReducers, createStore} from "redux"
 import listingReducer from "../../reducers/listingReducer";
 import loginReducer from "../../reducers/loginReducer"
@@ -13,11 +12,13 @@ import RegisterComponent from "../../components/register/RegisterComponent";
 import ProfileComponent from "../../components/profile/ProfileComponent";
 import PrivacyPageComponent from "../../components/privacy/PrivacyPageComponent";
 import HomeComponent from "../../components/home/HomeComponent";
+import SuggestedListingDetailComponent from "../../components/details/SuggestedListingDetailComponent";
 import CreateListingComponent from "../../components/create-listing/CreateListingComponent";
+
 
 const rootReducer = combineReducers({
     listings: listingReducer,
-    login: loginReducer
+    login: loginReducer,
 })
 
 const store = createStore(rootReducer)
@@ -126,14 +127,29 @@ class ListingSearchContainer extends React.Component{
                         listingId={props.match.params.listingId}
                         propStatus={props.match.params.propStatus}
                         propertyId={props.match.params.propertyId}
+                        history={props.history}
                         />
                     }
                     >
                     </Route>
 
+
+                    <Route path="/:cityQuery/:stateQuery/:listingId/:propStatus/:propertyId/suggested" exact={true} render={(props) =>
+                        <SuggestedListingDetailComponent
+                            city={props.match.params.cityQuery}
+                            state={props.match.params.stateQuery}
+                            listingId={props.match.params.listingId}
+                            propStatus={props.match.params.propStatus}
+                            propertyId={props.match.params.propertyId}
+                            history={props.history}
+                        />
+                    }
+                    >
+                    </Route>
                     <Route path={"/createlisting"}>
                         <CreateListingComponent/>
                     </Route>
+
                 </div>
             </Provider>
         )
