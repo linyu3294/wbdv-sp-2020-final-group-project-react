@@ -106,6 +106,12 @@ class ListingDetailComponent extends React.Component {
         ({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }))(this.state.listing);
         listingSendObject['city'] = this.props.city
         listingSendObject['state'] = this.props.state
+        const address = this.state.listing.address
+        listingSendObject['zipCode'] = address.slice(address.length-5,address.length)
+
+        // const parts = address.split(',')
+        // const zip = parts[parts.length]
+        // console.log(zip)
 
         console.log("sending: ")
         console.log(listingSendObject)
