@@ -8,10 +8,26 @@ import './ResultListStyle.css'
 
 class ResultsListComponent extends React.Component {
 
-    state = {}
+    state = {
+        dbListings: []
+    }
 
     componentDidMount() {
-        this.props.findAllListings(this.props.cityQuery, this.props.stateQuery)
+        this.props.findAllListings(this.props.cityQuery, this.props.stateQuery).then(listings => {
+        this.props.findListingsFromDb(this.props.cityQuery, this.props.stateQuery)
+            .then(r => {
+                console.log("this is r")
+                console.log(r)
+
+
+                this.setState({
+                    dbListings: r,
+                    combinedListings: r.concat(this.props.listings)
+                })
+                console.log(this.state.combinedListings)
+            })
+
+        })
          console.log("this is from did mount listings are")
          console.log(this.props.listings)
     }
@@ -28,7 +44,7 @@ class ResultsListComponent extends React.Component {
         return (
             <div className="row">
                 {this.props.listings.length === 0 && <h5>No results</h5>}
-                {this.props.listings && this.props.listings.map(listing => (
+                {this.state.combinedListings && this.state.combinedListings.map(listing => (
 
                         <ResultsListItemComponent
                         key={listing.property_id}
@@ -55,8 +71,12 @@ const dispatchToPropertyMapper = (dispatch) => {
     return {
         findAllListings: (city, state) =>
             SearchService.getAllListings(city, state)
-                .then(actualListings => dispatch(findAllListings(actualListings)))
+                .then(actualListings => dispatch(findAllListings(actualListings))),
             //dispatch(findAllListings(SearchService.getAllListings()))
+
+        findListingsFromDb: (city, state) =>
+            SearchService.getStoredListings(city, state)
+                .then(response => response)
     }
 }
 

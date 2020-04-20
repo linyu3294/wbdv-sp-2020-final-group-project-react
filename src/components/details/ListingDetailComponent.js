@@ -6,6 +6,7 @@ import UserService from "../../services/UserService";
 import ListingService from "../../services/ListingService";
 import LoginService from "../../services/LoginService";
 import "./ListingDetailComponent.css"
+import HomeService from "../../services/HomeService";
 
 class ListingDetailComponent extends React.Component {
 
@@ -19,8 +20,8 @@ class ListingDetailComponent extends React.Component {
                     this.setState({
                         listing: pageListing[0]
                     })
-
                     this.getUserProfile()
+
                     ListingService.findInterestedUsers(this.state.listing.listing_id)
                     .then(actualUsers => {
                         this.setState({
@@ -34,6 +35,10 @@ class ListingDetailComponent extends React.Component {
                 )
 
         let details = SearchService.getListingDetails(this.props.listingId, this.props.propStatus, this.props.propertyId)
+
+                }
+                )
+
         
         details.then(response => this.setState({
             listingInfo: response,
@@ -57,12 +62,16 @@ class ListingDetailComponent extends React.Component {
                 console.log(this.state.randoUserPic)
             })
 
-        
+
+        SearchService.getStoredListingById(this.props.listingId)
+            .then(response => console.log(response))
+
     }
 
     state = {
         profile: {},
         listings: [],
+        suggestedListing: {},
         listing: {},
         listingInfo:{},
         landLords:[],
@@ -71,6 +80,7 @@ class ListingDetailComponent extends React.Component {
         // randoUserPic: ''
         userLikesThisListing: false,
         interestedUsers: []
+        storedUser:{},
     }
 
     checkIfUserLikedListing() {
@@ -105,10 +115,15 @@ class ListingDetailComponent extends React.Component {
         ({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }))(this.state.listing);
         listingSendObject['city'] = this.props.city
         listingSendObject['state'] = this.props.state
+        const address = this.state.listing.address
+        listingSendObject['zipCode'] = address.slice(address.length-5,address.length)
+
+        // const parts = address.split(',')
+        // const zip = parts[parts.length]
+        // console.log(zip)
+
         console.log("sending: ")
         console.log(listingSendObject)
-        // listingSendObject.listing_id = parseInt(listingSendObject.listing_id)
-
         ListingService.saveListing(listingSendObject)
         .then(response => {
             return UserService.likeListing(listingSendObject.listing_id)
@@ -202,7 +217,9 @@ class ListingDetailComponent extends React.Component {
                     <div className="row">
 
                         <div className="col-sm-6">
+
                             {/* <div className="jumbotron bg-dark text-white">
+
                                 <div className="container">
                                     <h1 className="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>
                                     <p className="lead">{this.state.listing.address}</p>
