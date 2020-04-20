@@ -45,12 +45,6 @@ class ListingDetailComponent extends React.Component {
         }))
 
 
-        let ll = UserService.findLandlords()
-
-        ll.then(landLordList => this.setState({
-                landLords: landLordList
-        })).then(r => { console.log(this.state.landLords)})
-
 
         fetch('https://randomuser.me/api/?nat=us')
             .then(response => response.json())
@@ -64,7 +58,12 @@ class ListingDetailComponent extends React.Component {
 
 
         SearchService.getStoredListingById(this.props.listingId)
-            .then(response => console.log(response))
+            .then(response => {
+                console.log(response)
+                this.setState({
+                    listing:response
+                })
+            })
 
     }
 
