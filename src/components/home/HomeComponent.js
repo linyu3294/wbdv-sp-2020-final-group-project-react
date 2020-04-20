@@ -4,7 +4,6 @@ import UserService from "../../services/UserService";
 import LoginService from "../../services/LoginService";
 import HomeService from "../../services/HomeService";
 import { Slide } from 'react-slideshow-image';
-
 import { Fade } from 'react-slideshow-image';
 
 class HomeComponent extends React.Component {
@@ -45,9 +44,9 @@ class HomeComponent extends React.Component {
         indicators: true,
         arrows: false,
         pauseOnHover: true,
-        onChange: (oldIndex, newIndex) => {
-            console.log(`slide transition from ${oldIndex} to ${newIndex}`);
-        }
+        // onChange: (oldIndex, newIndex) => {
+        //     console.log(`slide transition from ${oldIndex} to ${newIndex}`);
+        // }
     }
 
 
@@ -190,14 +189,7 @@ class HomeComponent extends React.Component {
                                 </a>
                                 </div>
                             }
-                            {
-                                this.state.profile.username != null && this.state.profile.userType === "LANDLORD" &&
-                                <a className="col-sm-4" href="/createlisting">
-                                    <button className="btn btn-success btn-md" href="#"
-                                            role="button">Create New Listing
-                                    </button>
-                                </a>
-                            }
+                            
 
                         </div>
                     </div>

@@ -195,6 +195,7 @@ class ProfileComponent extends React.Component {
                                     </form>
                                     </p>
                                     }
+
                                     <p className="lead">
                                         <a href="/">Home</a>
                                         <br/>
@@ -204,8 +205,11 @@ class ProfileComponent extends React.Component {
                                 </div>
                             </div>                     
                         </div>
+
                         <div className="col-sm-4 listings-column">
                             <div className="jumbotron bg-gradient-secondary">
+                                { this.state.profile.userType == "RENTER" &&
+                                <Fragment>
                                 <h2 className="display-6">Your Liked Listings</h2>
                                         { this.state.profile.likedListings &&
                                             this.state.profile.likedListings.map((listing, index) => 
@@ -217,6 +221,30 @@ class ProfileComponent extends React.Component {
                                                 />
                                             )
                                         }
+                                    </Fragment>
+                                    }
+                                    { this.state.profile.userType == "LANDLORD" &&
+                                <Fragment>
+                                <h2 className="display-6">Your owned listings</h2>
+                                        { this.state.profile.ownedListing &&
+                                            this.state.profile.ownedListing.map((listing, index) => 
+                                                <ResultsListItemComponent
+                                                key={listing.property_id}
+                                                listing={listing}
+                                                cityQuery={listing.city}
+                                                stateQuery={listing.state}
+                                                />
+                                            )
+                                        }
+                                        
+                                        <a className="col-sm-4" href="/createlisting">
+                                            <button className="btn btn-success btn-md" href="#"
+                                                    role="button">Create New Listing
+                                            </button>
+                                        </a>
+                            
+                                    </Fragment>
+                                    }
                             </div>
                         </div>
                 </div>
@@ -224,6 +252,7 @@ class ProfileComponent extends React.Component {
             }
             </div>
         }
+
         { this.state.visitor === true &&
 
             <Fragment>

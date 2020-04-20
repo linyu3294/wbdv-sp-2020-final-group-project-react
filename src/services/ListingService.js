@@ -10,6 +10,13 @@ fetch(`http://localhost:8080/api/listings`, {
     credentials: "include"
 }).then(response => response.json())
 
+export const findInterestedUsers = (listingId) =>
+fetch(`http://localhost:8080/api/listings/${listingId}/users`, {
+    method: 'GET',
+    credentials: "include"
+}).then(response => response.json())
+
 export default {
-    saveListing
+    saveListing,
+    findInterestedUsers
 }

@@ -13,3 +13,13 @@ img {
     top: 10px;
     right: 10px;
 }
+
+.details-col {
+    position: relative;
+    top: -80px;
+}
+
+.top-row, .photos-row, .user-liked-jumbotron {
+    text-align: center;
+    justify-content: center;
+}

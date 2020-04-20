@@ -38,8 +38,10 @@ fetch(`http://localhost:8080/api/profile`, {
 }).then(response => response.json())
 
 export const findLandlords = () =>
-    fetch(`http://localhost:8080/api/landlords`)
-        .then(response => response.json())
+    fetch(`http://localhost:8080/api/landlords`, {
+        method: 'GET',
+        credentials: "include"
+    }).then(response => response.json())
 
 export default {
     createUser,

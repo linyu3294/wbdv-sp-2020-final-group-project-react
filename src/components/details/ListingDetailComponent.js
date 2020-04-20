@@ -1,5 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 import SearchService, {getListingDetails} from "../../services/SearchService";
 import UserService from "../../services/UserService";
 import ListingService from "../../services/ListingService";
@@ -13,22 +14,26 @@ class ListingDetailComponent extends React.Component {
                 .then(actualListings => this.setState({
                     listings: actualListings
                 })).then(response => {
-                    console.log("in this.state.listings")
-                    console.log(this.state.listings)
                     let pageListing = this.state.listings.filter(listing =>
                         listing.listing_id === this.props.listingId)
-                        console.log(pageListing)
-                        console.log(pageListing[0])
                     this.setState({
                         listing: pageListing[0]
                     })
 
                     this.getUserProfile()
+                    ListingService.findInterestedUsers(this.state.listing.listing_id)
+                    .then(actualUsers => {
+                        this.setState({
+                            interestedUsers: actualUsers
+                        })
+                        console.log("interseted USERSSSSS")
+                        console.log(this.state.interestedUsers)
+                    })
 
                 }
                 )
 
-    let details = SearchService.getListingDetails(this.props.listingId, this.props.propStatus, this.props.propertyId)
+        let details = SearchService.getListingDetails(this.props.listingId, this.props.propStatus, this.props.propertyId)
         
         details.then(response => this.setState({
             listingInfo: response,
@@ -52,6 +57,7 @@ class ListingDetailComponent extends React.Component {
                 console.log(this.state.randoUserPic)
             })
 
+        
     }
 
     state = {
@@ -60,10 +66,11 @@ class ListingDetailComponent extends React.Component {
         listing: {},
         listingInfo:{},
         landLords:[],
-        landLord:{}
+        landLord:{},
         // randoUser: {},
         // randoUserPic: ''
-        userLikesThisListing: false
+        userLikesThisListing: false,
+        interestedUsers: []
     }
 
     checkIfUserLikedListing() {
@@ -100,94 +107,167 @@ class ListingDetailComponent extends React.Component {
         listingSendObject['state'] = this.props.state
         console.log("sending: ")
         console.log(listingSendObject)
-        listingSendObject.listing_id = parseInt(listingSendObject.listing_id)
+        // listingSendObject.listing_id = parseInt(listingSendObject.listing_id)
 
         ListingService.saveListing(listingSendObject)
         .then(response => {
-            console.log(response)
             return UserService.likeListing(listingSendObject.listing_id)
             }).then(response => console.log(response))
+
+        this.setState({
+            userLikesThisListing: true
+        })
     }
 
     render() {
         return (
             <div className="container-fluid">
-                <a href="/">Home</a>
-                <div class="jumbotron jumbotron-fluid header-jumbotron">
-                {
-                        this.state.profile.userId &&  
-                        <button onClick={() => this.logout()} 
-                            className="btn btn-danger btn-md logout-button" 
-                            href="#"
-                            role="button">Log out
-                        </button>
-                    }
-                    <div class="container">
-                        <h1 class="display-4"><h1>Listing details</h1></h1>
-                        <p class="lead">See out more of this listing.</p>
-                        {/* <img 
-                            src={this.state.listingInfo.listing.photo.href}
-                            alt="Property image"
-                        /> */}
+                <img src={require('./logo.png')} className="logo" alt="img" width="50" height="50"/>
+                <a href="/">Back to home</a>
+                <div className="jumbotron jumbotron-fluid header-jumbotron">
+                    <div className="row">
+                        <div className="col-sm-6 details-col">
+                        <br/>
+                        <h1 className="display-4"><h1>Listing details</h1></h1>
+                        <p className="lead">Find out more about this listing.</p>
+                        {
+                        this.state.listingInfo.listing &&
+                        <div className="jumbotron bg-dark text-white details-jumbotron">
+                            <div className="row top-row">
+                                <h1 className="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>
+                                <p className="lead">{this.state.listing.address}</p>
+                                { this.state.userLikesThisListing === false && this.state.profile.userId != null 
+                                &&
+                                <button onClick={() => this.userLikeListing(this.props.listingId)} 
+                                    className="btn btn-warning like-button">Like this listing</button>
+                                }
+                                { this.state.userLikesThisListing === true &&
+                                    <button className="btn btn-warning">You Like This Listing!</button>
+                                }
+                                {this.state.randoUser &&
+                                    <div className="row">
+                                        <div className="col-sm-3">
+                                            <img src={this.state.randoUserPic}/>
+                                            <h5>Landlord</h5>
+                                        </div>
+                                        <div className="col-sm-9">
+                                            <h3>
+                                                {this.state.randoUser.name.title + " "}
+                                                {this.state.randoUser.name.first + " "}
+                                                {this.state.randoUser.name.last}
+                                            </h3>
+                                            <h4>
+                                                Email: {this.state.randoUser.email}
+                                            </h4>
+                                            <h4>
+                                                Cell: {this.state.randoUser.cell}
+                                            </h4>
+                                        </div>
+                                        
+                                    </div>
+                                    }
+                            </div>
+                        </div>
+                        }
+                        </div>
+
+                        <div className="col-sm-6 google-image-col">
+                            <iframe
+                                width="600"
+                                height="450"
+                                frameBorder="0" style={{border:0}}
+                                src={`https://www.google.com/maps/embed/v1/streetview?key=AIzaSyC75gsTAWrMRR9ErLo2jwakIk-uHMu9378&location=${this.state.listing.lat},${this.state.listing.lon}`} allowFullScreen>
+                            </iframe>
+                        </div>
+                        
+                        
+                    </div>
+
+
+                    <div className="row photos-row">
+                            
+                            { this.state.listingInfo.listing &&
+                            this.state.listingInfo.listing.photos.map(photo => (
+                                    <img src={photo.href}/>
+                            ))
+                            }
                     </div>
                 </div>
+
+
 
                 
                 {
                     this.state.listingInfo.listing &&
                     <div className="row">
 
-
                         <div className="col-sm-6">
-                            <div className="jumbotron bg-dark text-white">
+                            {/* <div className="jumbotron bg-dark text-white">
                                 <div className="container">
                                     <h1 className="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>
                                     <p className="lead">{this.state.listing.address}</p>
-                                    { this.state.userLikesThisListing === false &&
-                                    <button onClick={() => this.userLikeListing(this.props.listingId)} className="btn btn-warning">Like this listing</button>
+                                    { this.state.userLikesThisListing === false && this.state.profile.userId != null 
+                                    &&
+                                    <button onClick={() => this.userLikeListing(this.props.listingId)} 
+                                        className="btn btn-warning like-button">Like this listing</button>
                                     }
                                     { this.state.userLikesThisListing === true &&
                                         <button className="btn btn-warning">You Like This Listing!</button>
                                     }
+                                </div>
+                            </div> */}
+                            <div className="jumbotron bg-muted user-liked-jumbotron">
+
+                                {
+                                    this.state.interestedUsers.length == 0 &&
+                                    <h1 className="display-6">No users have liked this listing yet.</h1>
+                                }
+
+                                { this.state.interestedUsers.length != 0 &&
+                                <h1 className="display-9">No users have liked this listing yet.</h1>
+                                    // <p className="lead">Users who liked this listing:</p>
+                                }
+                                
+                                {
+                                    this.state.interestedUsers &&
+
+                                    this.state.interestedUsers.map((user, index) => 
+                                    <div className="card" style={{width: 18+"rem"}}>
+                                        <img className="card-img-top" src={require('../../profilepicture.png')} 
+                                            alt="Card image cap"/>
+                                        <div className="card-body">
+                                        <h5 className="card-title">{user.firstName} {user.lastName}</h5>
+                                            <p className="card-text">Take a look at their profile!</p>
+                                            <button>
+                                                <Link to={`/profile/${user.userId}`}><h5>View Profile</h5></Link>
+                                            </button>
+                                        </div>
                                     </div>
+                                    )
+
+                                }
                             </div>
                         </div>
 
                         <div className="col-sm-6">
                             
                             <div className="row">
+
                                 	<iframe
                                         width="600"
                                         height="450"
-                                        frameborder="0" style={{border:0}}
-                                        src={`https://www.google.com/maps/embed/v1/streetview?key=AIzaSyC75gsTAWrMRR9ErLo2jwakIk-uHMu9378&location=${this.state.listing.lat},${this.state.listing.lon}`} allowfullscreen>
-                                    </iframe>
-                                	<iframe
-                                        width="600"
-                                        height="450"
-                                        frameborder="0" style={{border:0}}
-                                        src={`https://maps.google.com/?q=${this.state.listing.lat},${this.state.listing.lon}&output=svembed`} allowfullscreen>
+                                        frameBorder="0" style={{border:0}}
+                                        src={`https://maps.google.com/?q=${this.state.listing.lat},${this.state.listing.lon}&output=svembed`} allowFullScreen>
                                     </iframe>
                                 <img 
                                 src={this.state.listingInfo.listing.photo.href}
                                 alt="Property image"
                                 />
                             </div>
-                            <div className="row">
-                                {this.state.listingInfo.listing.photos.map(photo => (
-                                <img src={photo.href}/>
-                                ))}
-                            </div>
+                            
                         </div>
                     </div>
                 }
-
-                {this.state.randoUser &&
-                <div>
-                    <h1>Landlord</h1>
-                    <h3>{this.state.randoUser.gender}</h3>
-                    <img src={this.state.randoUserPic}/>
-                </div>}
             </div>
         )
     }
