@@ -52,6 +52,10 @@ class ListingDetailComponent extends React.Component {
                 console.log(this.state.randoUserPic)
             })
 
+
+        SearchService.getStoredListingById(this.props.listingId)
+            .then(response => console.log(response))
+
     }
 
     state = {
@@ -60,9 +64,10 @@ class ListingDetailComponent extends React.Component {
         listing: {},
         listingInfo:{},
         landLords:[],
-        landLord:{}
+        landLord:{},
         // randoUser: {},
         // randoUserPic: ''
+        storedUser:{},
         userLikesThisListing: false
     }
 

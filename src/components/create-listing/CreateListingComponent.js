@@ -7,47 +7,27 @@ class CreateListingComponent extends React.Component {
     state = {
         newListing: {
             city: "",
-            state: "",
-            price: 0,
+            price_raw: 0,
             address: "",
             beds:"",
-            baths:""
+            baths:"",
+            prop_status: "for_rent"
 
         },
+        searchState: "AL",
         passwordMatch: false,
         profile:{}
     }
-
-    // validatePasswords() {
-    //     if (this.state.user.password != this.state.user.confirmPassword) {
-    //         document.getElementById("confirmPasswordField").innerHTML="Passwords not matching!";
-    //         return false;
-    //     }
-    //     document.getElementById("confirmPasswordField").innerHTML="";
-    //     return true;
-    // }
-    //
-    // createUser = (user) => {
-    //     userService.createUser(user)
-    //         .then(actualUser => {
-    //             console.log("createUser response:")
-    //             console.log(actualUser)
-    //             if (actualUser.username == "username already taken!!") {
-    //                 alert("That username is already taken! Try again.")
-    //             } else {
-    //                 this.props.history.push("/profile")
-    //             }
-    //         })
-    //
-    // }
 
     componentDidMount() {
         this.getUserProfile()
     }
 
-    createListing = (listing, landlordId) => {
-        let listingToSend = { ...listing, landlordId: landlordId}
-        ListingService.saveListing(listingToSend)
+    createListing = (listing) => {
+        // this.setState(prevsState => ({
+        //     newListing: {...prevsState.newListing, state: this.state.searchState}
+        // }))
+        ListingService.landlordCreateListing(listing);
         alert("saved listing")
     }
 
@@ -56,6 +36,19 @@ class CreateListingComponent extends React.Component {
             this.setState({profile: actualResponse})
         })
     }
+
+    setSearchState = (e) => {
+        let newState = e.target.value;
+        this.setState( prevState => ({
+
+            newListing: {
+                ...prevState.newListing,
+                state: newState
+            },
+
+            searchState: newState
+            })
+        )}
 
     render() {
         return (
@@ -75,7 +68,8 @@ class CreateListingComponent extends React.Component {
 
                         <div class="form-group">
                             <label For="stateInput">State</label>
-                            <select id="stateInput" className="form-control" value={this.state.newListing.state} onChange={(e) => this.state.newListing.state = e.target.value}>
+                            <select id="stateInput" className="form-control"
+                                    value={this.state.searchState} onChange={(e) => this.setSearchState(e)}>
                                 <option value="AL">Alabama</option>
                                 <option value="AK">Alaska</option>
                                 <option value="AZ">Arizona</option>
@@ -135,31 +129,31 @@ class CreateListingComponent extends React.Component {
                                    className="form-control"
                                    type="number"
                                    min="1"
-                                   onChange={(e) => this.state.newListing.price = e.target.value}
+                                   onChange={(e) => this.state.newListing.price_raw = e.target.value}
                             />
                         </div>
                         <div class="form-group">
                             <label for="phoneInput">Address</label>
                             <input type="phone" class="form-control"
                                    onChange={(e) => this.state.newListing.address = e.target.value}
-                                   id="phoneInput" placeholder="Enter your phone number"/>
+                                   id="phoneInput" placeholder="Enter the listing address"/>
                         </div>
 
                         <div class="form-group">
                             <label for="usernameInput">Beds</label>
                             <input type="text" class="form-control"
                                    onChange={(e) => this.state.newListing.beds = e.target.value}
-                                   id="usernameInput" placeholder="Enter your username"/>
+                                   id="usernameInput" placeholder="Enter the number of beds"/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="usernameInput">Baths</label>
                             <input type="text" className="form-control"
                                    onChange={(e) => this.state.newListing.baths = e.target.value}
-                                   id="usernameInput" placeholder="Enter your username"/>
+                                   id="usernameInput" placeholder="Enter the number of baths"/>
                         </div>
                     </form>
                 </p>
-                <button onClick={() => this.createListing(this.state.newListing, this.state.profile.userId)} type="button" class="btn btn-success">Create Listing</button>
+                <button onClick={() => this.createListing(this.state.newListing)} type="button" class="btn btn-success">Create Listing</button>
             </div>
         )
     }

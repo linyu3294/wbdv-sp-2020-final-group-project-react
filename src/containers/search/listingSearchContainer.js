@@ -104,12 +104,14 @@ class ListingSearchContainer extends React.Component{
                                 cityQuery={props.match.params.cityQuery}
                                 stateQuery={props.match.params.stateQuery}
                                 handleSearch={this.handleSearch}
+                                history={props.history}
                             />
 
                             <ResultsListComponent 
                                 cityQuery={props.match.params.cityQuery}
                                 stateQuery={props.match.params.stateQuery}
                                 listings={this.props.listings}
+                                history={props.history}
                             />
 
                         </div>}>
