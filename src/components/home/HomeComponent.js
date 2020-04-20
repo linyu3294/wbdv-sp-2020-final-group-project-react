@@ -4,23 +4,40 @@ import UserService from "../../services/UserService";
 import LoginService from "../../services/LoginService";
 import HomeService from "../../services/HomeService";
 import { Slide } from 'react-slideshow-image';
-
 import { Fade } from 'react-slideshow-image';
+
 
 class HomeComponent extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            similarListings: [],
-            profile: {}
+            listings: {},
+            profile: {},
+            likedListings: {},
+            fetchedSimilarListings: false
         }
     }
 
-    findSimiliarListings = (zipCode, listingId) => {
-        HomeService.findSimilarListings(zipCode, listingId).then(foundListings => {
-            this.setState({similarListings: foundListings})
-        })
+    componentDidMount() {
+        this.getUserProfile()
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.state.fetchedSimilarListings === false
+            && this.state.profile.username != null
+            && this.state.profile.likedListings.length != 0
+        ){
+            this.findSimiliarListings('02465', this.state.profile.likedListings.listing_id)
+            this.state.fetchedSimilarListings = true;
+        }
+    }
+
+    findSimiliarListings =  (zipCode, listingId) => {
+          HomeService.findSimilarListings(zipCode, listingId)
+              .then(foundListings => this.setState(
+                  {listings: foundListings}
+                  ))
     }
 
     getUserProfile = () => {
@@ -51,36 +68,50 @@ class HomeComponent extends React.Component {
     }
 
 
-
     slideshow = () => {
         return (
-                <div className="slide-container">
-                    <Slide {...this.slideShowProps}>
-                        <div className="each-slide">
-                            <img className = 'home-image' src={require('./home1.jpg')}/>
+            <div className="slide-container">
+                <Slide {...this.slideShowProps}>
+                    <div className="each-slide">
+                        <img className = 'home-image' src={require('./home1.jpg')}/>
 
-                        </div>
-                        <div className="each-slide">
-                            <img className = 'home-image' src={require('./home2.jpg')}/>
+                    </div>
+                    <div className="each-slide">
+                        <img className = 'home-image' src={require('./home2.jpg')}/>
 
-                        </div>
-                        <div className="each-slide">
-                            <img className = 'home-image' src={require('./home3.jpeg')}/>
+                    </div>
+                    <div className="each-slide">
+                        <img className = 'home-image' src={require('./home3.jpeg')}/>
 
-                        </div>
-                    </Slide>
-                </div>
+                    </div>
+                </Slide>
+            </div>
 
         )
     }
 
-    componentDidMount() {
-        this.getUserProfile()
-        this.findSimiliarListings('02111', '2912313023')
+
+    recommendListings = () => {
+        return (
+            //http://localhost:3000/mobile/AL/2915148844/for_rent/8866996974
+             <div>
+                 {this.state.fetchedSimilarListings &&
+                 console.log(this.state.listings)}
+
+                {this.state.fetchedSimilarListings &&
+                this.state.listings.properties.map
+                (eachListing =>
+                    <div>
+                        <a href={`http://localhost:3000/${eachListing.city.toLowerCase()}/${eachListing.state_code}/${eachListing.listing_id}/${eachListing.prop_status}/${eachListing.property_id}/suggested`
+                        }> {eachListing.address}</a>
+                    </div>
+                )}
+            </div>
+        )
     }
 
+
     render() {
-        console.log(this.state.profile)
         return (
             <div className="container">
                 <div className="logo-box">
@@ -98,23 +129,23 @@ class HomeComponent extends React.Component {
                     <div className="col-12">
                         <div className="jumbotron">
                             {
-                                this.state.profile.username != null && 
+                                this.state.profile.username != null &&
                                 <h1 className="display-4">
                                     Welcome, {this.state.profile.firstName} {this.state.profile.lastName}</h1>
                             }
                             {
-                                this.state.profile.username == null && 
+                                this.state.profile.username == null &&
                                 <h1 className="display-4">Welcome, Guest</h1>
                             }
 
 
-                            {!this.state.profile.userId &&
+                            {this.state.profile.username == null  &&
                             <p className="lead">Connect with Local Landlords to Find your Perfect Home</p>}
-
-                            {this.state.profile.userId &&
+                            {this.state.profile.username != null  &&
                             <p className="lead">Navigate to Profile Page to View your Liked Listings </p>}
 
-                            {this.slideshow()}
+                            {this.state.profile.username == null   && this.slideshow()}
+                            {this.state.profile.username != null  && this.recommendListings()}
 
 
 
@@ -131,7 +162,7 @@ class HomeComponent extends React.Component {
                                 potential renters as well as get an idea of what the renting climate
                                 is like in their location based on other listings.</p>
                             {
-                            this.state.profile.username == null && 
+                            this.state.profile.username == null &&
                             <div className="row">
                             <a className="col-sm-2" href="/login">
                                 <button className="btn btn-primary btn-md" href="#"

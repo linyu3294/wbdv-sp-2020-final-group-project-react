@@ -5,6 +5,7 @@ import UserService from "../../services/UserService";
 import ListingService from "../../services/ListingService";
 import LoginService from "../../services/LoginService";
 import "./ListingDetailComponent.css"
+import HomeService from "../../services/HomeService";
 
 class ListingDetailComponent extends React.Component {
 
@@ -15,6 +16,7 @@ class ListingDetailComponent extends React.Component {
                 })).then(response => {
                     console.log("in this.state.listings")
                     console.log(this.state.listings)
+                    console.log(this.props.listingId)
                     let pageListing = this.state.listings.filter(listing =>
                         listing.listing_id === this.props.listingId)
                         console.log(pageListing)
@@ -22,9 +24,9 @@ class ListingDetailComponent extends React.Component {
                     this.setState({
                         listing: pageListing[0]
                     })
- 
                 }
                 )
+
         
 
     let details = SearchService.getListingDetails(this.props.listingId, this.props.propStatus, this.props.propertyId)
@@ -35,11 +37,13 @@ class ListingDetailComponent extends React.Component {
 
         this.getUserProfile()
 
+
     }
 
     state = {
         profile: {},
         listings: [],
+        suggestedListing: {},
         listing: {},
         listingInfo:{}
     }
@@ -61,12 +65,18 @@ class ListingDetailComponent extends React.Component {
 
     userLikeListing = (listingId) => {
 
+
         // Create a cleaner version of listing to send to save in database
         const listingSendObject = 
-        (({ property_id, listing_id, prop_status, address, price_raw, beds, baths }) => 
+        (({ property_id, listing_id, prop_status, address, price_raw, beds, baths }) =>
         ({ property_id, listing_id, prop_status, address, price_raw, beds, baths }))(this.state.listing);
+        //address: {city: "Newton", country: "USA", county: "Middlesex", lat: 42.358244, line: "48 Lexington St Unit 1", …}
+        listingSendObject['city'] = this.props.city
+        listingSendObject['state'] = this.props.state
+
         console.log("sending: ")
         console.log(listingSendObject)
+
         listingSendObject.listing_id = parseInt(listingSendObject.listing_id)
 
         ListingService.saveListing(listingSendObject)
@@ -110,7 +120,7 @@ class ListingDetailComponent extends React.Component {
                                 <div class="container">
                                     <h1 class="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>
                                     <p class="lead">{this.state.listing.address}</p>
-                                    <button onClick={() => this.userLikeListing(this.props.listingId)} class="btn btn-warning">Like this listing</button>
+                                    <button onClick={() => this.userLikeListing(this.state.listing.listing_id)} class="btn btn-warning">Like this listing</button>
                                 </div>
                             </div>
                         </div>
