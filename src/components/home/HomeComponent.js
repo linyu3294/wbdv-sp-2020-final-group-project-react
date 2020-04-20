@@ -23,15 +23,27 @@ class HomeComponent extends React.Component {
         this.getUserProfile()
     }
 
+    getRandomArbitrary = (numOfLikedListings) => {
+            return Math.floor(Math.random() * Math.floor(numOfLikedListings));
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
+
         if (this.state.fetchedSimilarListings === false
             && this.state.profile.username != null
             && this.state.profile.likedListings.length != 0
         ){
-            this.findSimiliarListings('02465', this.state.profile.likedListings.listing_id)
+            // console.log(this.state.profile)
+            // console.log(this.state.profile.likedListings)
+            // console.log(this.state.profile.likedListings[0].listing_id)
+
+            const index = this.getRandomArbitrary(this.state.profile.likedListings.length)
+            this.findSimiliarListings(this.state.profile.likedListings[index].zipCode,
+                this.state.profile.likedListings[index].listing_id)
             this.state.fetchedSimilarListings = true;
         }
     }
+    //this.state.profile.likedListings.zipCode
 
     findSimiliarListings =  (zipCode, listingId) => {
           HomeService.findSimilarListings(zipCode, listingId)
@@ -140,9 +152,13 @@ class HomeComponent extends React.Component {
 
 
                             {this.state.profile.username == null  &&
-                            <p className="lead">Connect with Local Landlords to Find your Perfect Home</p>}
-                            {this.state.profile.username != null  &&
-                            <p className="lead">Navigate to Profile Page to View your Liked Listings </p>}
+                            <p className="lead">Connect with Local Landlords to Find your Perfect Home!</p>}
+
+                            {this.state.profile.username != null  && this.state.profile.likedListings.length == 0 &&
+                            <p className="lead">You Currently have No Liked Listing. Start Your Next Search! </p>}
+
+                            {this.state.profile.username != null  && this.state.profile.likedListings.length > 0 &&
+                            <p className="lead">Here are Some Suggested Listings Based on Your Liked Listings!</p>}
 
                             {this.state.profile.username == null   && this.slideshow()}
                             {this.state.profile.username != null  && this.recommendListings()}

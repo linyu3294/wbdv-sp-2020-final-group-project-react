@@ -52,11 +52,11 @@ class SuggestedListingDetailComponent extends React.Component {
 
         listingSendObject['address'] =  this.state.listing.address.line + ' ' +
                                         this.state.listing.address.city + ' ' +
-                                        this.state.listing.address.state + ' ' +
+                                        this.state.listing.address.state_code + ' ' +
                                         this.state.listing.address.postal_code
 
         listingSendObject['city'] = '' + this.state.listing.address.city
-        listingSendObject['state'] = '' + this.state.listing.address.state
+        listingSendObject['state'] = '' + this.state.listing.address.state_code
         listingSendObject['beds'] = this.state.listing.beds
         listingSendObject['price_raw'] = this.state.listing.price
         listingSendObject['zipCode'] = this.state.listing.address.postal_code
