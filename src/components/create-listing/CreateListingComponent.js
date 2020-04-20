@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import UserService from "../../services/UserService";
 import ListingService from "../../services/ListingService";
 
@@ -16,18 +16,31 @@ class CreateListingComponent extends React.Component {
         },
         searchState: "AL",
         passwordMatch: false,
-        profile:{}
+        profile:{},
+        searchState:"AL",
     }
 
     componentDidMount() {
         this.getUserProfile()
     }
 
+
+    setSearchState = (e) => {         
+        let newState = e.target.value;         
+        this.setState( prevState => ({             
+             newListing: {                 
+                 ...prevState.newListing,                 
+                 state: newState             },              
+                 searchState: newState             
+                })         
+            )}
+
     createListing = (listing) => {
         // this.setState(prevsState => ({
         //     newListing: {...prevsState.newListing, state: this.state.searchState}
         // }))
         ListingService.landlordCreateListing(listing);
+
         alert("saved listing")
     }
 
@@ -53,10 +66,17 @@ class CreateListingComponent extends React.Component {
     render() {
         return (
             <div class="jumbotron">
+                {
+                    this.state.profile.userId == null &&
+                    <h4>You are not logged in. <a href="/login">Go to login</a> to create a listing.</h4>
+                }
+
+                { 
+                this.state.profile.userId &&
+                <Fragment>
                 <a href="/">Home</a>
                 <h1 class="display-4">Create a new listing.</h1>
-                <p class="lead">Enter your name, email, phone, and
-                    whether you are a renter or a landlord to get going.</p>
+                <p class="lead">Enter the city, state, address, beds, and baths.</p>
                 <p class="lead">
                     <form>
                         <div class="form-group">
@@ -68,8 +88,7 @@ class CreateListingComponent extends React.Component {
 
                         <div class="form-group">
                             <label For="stateInput">State</label>
-                            <select id="stateInput" className="form-control"
-                                    value={this.state.searchState} onChange={(e) => this.setSearchState(e)}>
+                            <select id="stateInput" className="form-control" value={this.state.searchState} onChange={(e) => this.setSearchState(e)}>
                                 <option value="AL">Alabama</option>
                                 <option value="AK">Alaska</option>
                                 <option value="AZ">Arizona</option>
@@ -136,7 +155,8 @@ class CreateListingComponent extends React.Component {
                             <label for="phoneInput">Address</label>
                             <input type="phone" class="form-control"
                                    onChange={(e) => this.state.newListing.address = e.target.value}
-                                   id="phoneInput" placeholder="Enter the listing address"/>
+                                   id="phoneInput" placeholder="Enter the address"/>
+
                         </div>
 
                         <div class="form-group">
@@ -153,8 +173,10 @@ class CreateListingComponent extends React.Component {
                         </div>
                     </form>
                 </p>
-                <button onClick={() => this.createListing(this.state.newListing)} type="button" class="btn btn-success">Create Listing</button>
-            </div>
+                <button onClick={() => this.createListing(this.state.newListing, this.state.profile.userId)} type="button" class="btn btn-success">Create Listing</button>
+                </Fragment>
+                }
+                </div>
         )
     }
 }

@@ -102,6 +102,7 @@ class ListingSearchContainer extends React.Component{
                         <div>
                             <SearchBarComponent
                                 loginStatus={this.props.loginStatus} //contains login state
+                                history={props.history}
                                 cityQuery={props.match.params.cityQuery}
                                 stateQuery={props.match.params.stateQuery}
                                 handleSearch={this.handleSearch}

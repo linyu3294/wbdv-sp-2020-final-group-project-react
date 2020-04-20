@@ -10,6 +10,14 @@ fetch(`http://localhost:8080/api/listings`, {
     credentials: "include"
 }).then(response => response.json())
 
+
+export const findInterestedUsers = (listingId) =>
+fetch(`http://localhost:8080/api/listings/${listingId}/users`, {
+    method: 'GET',
+    credentials: "include"
+}).then(response => response.json())
+
+
 export const landlordCreateListing = (listing) => {
     fetch(`http://localhost:8080/api/listings/landlord/create`, {
         method: "POST",
@@ -23,5 +31,7 @@ export const landlordCreateListing = (listing) => {
 
 export default {
     saveListing,
-    landlordCreateListing
+    landlordCreateListing,
+    findInterestedUsers
+
 }
