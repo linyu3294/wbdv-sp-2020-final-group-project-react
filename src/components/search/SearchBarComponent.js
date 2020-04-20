@@ -20,6 +20,7 @@ class SearchBarComponent extends React.Component{
         this.getUserProfile()
     }
 
+
     setSearchCity = (e) => {
         let newCity = e.target.value;
         this.setState( prevState => ({

@@ -33,10 +33,22 @@ class ResultsListComponent extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.listings !== this.props.listings){
-            // this.props.findAllListings()
-            // console.log("this is from did update listings are")
-            // console.log(this.props.listings)
+        if(prevProps.cityQuery !== this.props.cityQuery || prevProps.stateQuery !== this.props.stateQuery){
+            this.props.findAllListings(this.props.cityQuery, this.props.stateQuery).then(listings => {
+                this.props.findListingsFromDb(this.props.cityQuery, this.props.stateQuery)
+                    .then(r => {
+                        console.log("this is r")
+                        console.log(r)
+
+
+                        this.setState({
+                            dbListings: r,
+                            combinedListings: r.concat(this.props.listings)
+                        })
+                        console.log(this.state.combinedListings)
+                    })
+
+            })
         }
     }
 
