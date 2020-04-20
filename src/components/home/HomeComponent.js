@@ -221,6 +221,14 @@ class HomeComponent extends React.Component {
                                 </a>
                                 </div>
                             }
+                            {
+                                this.state.profile.username != null && this.state.profile.userType === "LANDLORD" &&
+                                <a className="col-sm-4" href="/createlisting">
+                                    <button className="btn btn-success btn-md" href="#"
+                                            role="button">Create New Listing
+                                    </button>
+                                </a>
+                            }
 
                         </div>
                     </div>

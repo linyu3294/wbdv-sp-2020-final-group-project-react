@@ -24,10 +24,10 @@ class ListingDetailComponent extends React.Component {
                     this.setState({
                         listing: pageListing[0]
                     })
+                    this.getUserProfile()
                 }
                 )
 
-        
 
     let details = SearchService.getListingDetails(this.props.listingId, this.props.propStatus, this.props.propertyId)
         
@@ -35,7 +35,27 @@ class ListingDetailComponent extends React.Component {
             listingInfo: response,
         }))
 
-        this.getUserProfile()
+
+        let ll = UserService.findLandlords()
+
+        ll.then(landLordList => this.setState({
+                landLords: landLordList
+        })).then(r => { console.log(this.state.landLords)})
+
+
+        fetch('https://randomuser.me/api/?nat=us')
+            .then(response => response.json())
+            .then(ru => this.setState({
+                randoUser: ru.results[0],
+                randoUserPic: ru.results[0].picture.large
+            })).then(print => {
+                console.log(this.state.randoUser)
+                console.log(this.state.randoUserPic)
+            })
+
+
+        SearchService.getStoredListingById(this.props.listingId)
+            .then(response => console.log(response))
 
 
     }
@@ -45,14 +65,30 @@ class ListingDetailComponent extends React.Component {
         listings: [],
         suggestedListing: {},
         listing: {},
-        listingInfo:{}
+        listingInfo:{},
+        landLords:[],
+        landLord:{},
+        // randoUser: {},
+        // randoUserPic: ''
+        storedUser:{},
+        userLikesThisListing: false
+    }
+
+    checkIfUserLikedListing() {
+        this.state.profile.likedListings.forEach((element, index, array) => {
+            if ((element.listing_id + "") === this.state.listing.listing_id) {
+                this.setState({
+                    userLikesThisListing: true
+                })
+            }
+        })
+
     }
 
     getUserProfile = () => {
         UserService.getProfile().then(actualResponse => {
             this.setState({profile: actualResponse})
-            console.log(actualResponse)
-            console.log(this.state.profile)
+            this.checkIfUserLikedListing()
         })
     }
 
@@ -65,12 +101,9 @@ class ListingDetailComponent extends React.Component {
 
     userLikeListing = (listingId) => {
 
-
-        // Create a cleaner version of listing to send to save in database
         const listingSendObject = 
-        (({ property_id, listing_id, prop_status, address, price_raw, beds, baths }) =>
-        ({ property_id, listing_id, prop_status, address, price_raw, beds, baths }))(this.state.listing);
-        //address: {city: "Newton", country: "USA", county: "Middlesex", lat: 42.358244, line: "48 Lexington St Unit 1", …}
+        (({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }) => 
+        ({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }))(this.state.listing);
         listingSendObject['city'] = this.props.city
         listingSendObject['state'] = this.props.state
 
@@ -116,12 +149,18 @@ class ListingDetailComponent extends React.Component {
 
 
                         <div className="col-sm-6">
-                            <div class="jumbotron bg-dark text-white">
-                                <div class="container">
-                                    <h1 class="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>
-                                    <p class="lead">{this.state.listing.address}</p>
-                                    <button onClick={() => this.userLikeListing(this.state.listing.listing_id)} class="btn btn-warning">Like this listing</button>
-                                </div>
+
+                            <div className="jumbotron bg-dark text-white">
+                                <div className="container">
+                                    <h1 className="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>
+                                    <p className="lead">{this.state.listing.address}</p>
+                                    { this.state.userLikesThisListing === false &&
+                                    <button onClick={() => this.userLikeListing(this.props.listingId)} className="btn btn-warning">Like this listing</button>
+                                    }
+                                    { this.state.userLikesThisListing === true &&
+                                        <button className="btn btn-warning">You Like This Listing!</button>
+                                    }
+                                    </div>
                             </div>
                         </div>
 
@@ -153,6 +192,13 @@ class ListingDetailComponent extends React.Component {
                         </div>
                     </div>
                 }
+
+                {this.state.randoUser &&
+                <div>
+                    <h1>Landlord</h1>
+                    <h3>{this.state.randoUser.gender}</h3>
+                    <img src={this.state.randoUserPic}/>
+                </div>}
             </div>
         )
     }
