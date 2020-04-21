@@ -20,14 +20,27 @@ class ListingDetailComponent extends React.Component {
                     this.setState({
                         listing: pageListing[0]
                     })
+                    
                     this.getUserProfile()
+
+                    const listingSendObject = 
+                    (({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }) => 
+                    ({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }))(this.state.listing);
+                    listingSendObject['city'] = this.props.city
+                    listingSendObject['state'] = this.props.state
+                    const address = this.state.listing.address
+                    listingSendObject['zipCode'] = address.slice(address.length-5,address.length)
+
+                    console.log("sending: ")
+                    console.log(listingSendObject)
+                    ListingService.saveListing(listingSendObject)
 
                     ListingService.findInterestedUsers(this.state.listing.listing_id)
                     .then(actualUsers => {
                         this.setState({
                             interestedUsers: actualUsers
                         })
-                        console.log("interseted USERSSSSS")
+                        console.log("interested USERSSSSS")
                         console.log(this.state.interestedUsers)
                     })
 
@@ -107,30 +120,12 @@ class ListingDetailComponent extends React.Component {
     }
 
     userLikeListing = (listingId) => {
-
-        const listingSendObject = 
-        (({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }) => 
-        ({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }))(this.state.listing);
-        listingSendObject['city'] = this.props.city
-        listingSendObject['state'] = this.props.state
-        const address = this.state.listing.address
-        console.log (address)
-        listingSendObject['zipCode'] = address.slice(address.length-5,address.length)
-
-        // const parts = address.split(',')
-        // const zip = parts[parts.length]
-        // console.log(zip)
-
-        console.log("sending: ")
-        console.log(listingSendObject)
-        ListingService.saveListing(listingSendObject)
-        .then(response => {
-            return UserService.likeListing(listingSendObject.listing_id)
-            }).then(response => console.log(response))
-
-        this.setState({
-            userLikesThisListing: true
-        })
+        UserService.likeListing(listingId)
+            .then(response => {
+                console.log(response)
+            this.setState({
+                userLikesThisListing: true
+            })})
     }
 
     render() {
@@ -217,21 +212,7 @@ class ListingDetailComponent extends React.Component {
 
                         <div className="col-sm-6">
 
-                            {/* <div className="jumbotron bg-dark text-white">
-
-                                <div className="container">
-                                    <h1 className="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>
-                                    <p className="lead">{this.state.listing.address}</p>
-                                    { this.state.userLikesThisListing === false && this.state.profile.userId != null 
-                                    &&
-                                    <button onClick={() => this.userLikeListing(this.props.listingId)} 
-                                        className="btn btn-warning like-button">Like this listing</button>
-                                    }
-                                    { this.state.userLikesThisListing === true &&
-                                        <button className="btn btn-warning">You Like This Listing!</button>
-                                    }
-                                </div>
-                            </div> */}
+                        
                             <div className="jumbotron bg-muted user-liked-jumbotron">
 
                                 {
@@ -297,3 +278,20 @@ const stateToPropertyMapper = (state) => {
 }
 
 export default connect(stateToPropertyMapper)(ListingDetailComponent)
+
+
+//  {/* <div className="jumbotron bg-dark text-white">
+
+//                                 <div className="container">
+//                                     <h1 className="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>
+//                                     <p className="lead">{this.state.listing.address}</p>
+//                                     { this.state.userLikesThisListing === false && this.state.profile.userId != null 
+//                                     &&
+//                                     <button onClick={() => this.userLikeListing(this.props.listingId)} 
+//                                         className="btn btn-warning like-button">Like this listing</button>
+//                                     }
+//                                     { this.state.userLikesThisListing === true &&
+//                                         <button className="btn btn-warning">You Like This Listing!</button>
+//                                     }
+//                                 </div>
+//                             </div> */}
