@@ -36,8 +36,7 @@ class ListingDetailComponent extends React.Component {
 
         let details = SearchService.getListingDetails(this.props.listingId, this.props.propStatus, this.props.propertyId)
 
-                }
-                )
+
 
         
         details.then(response => this.setState({
@@ -78,8 +77,8 @@ class ListingDetailComponent extends React.Component {
         // randoUser: {},
         // randoUserPic: ''
         userLikesThisListing: false,
-        interestedUsers: []
-        storedUser:{},
+        interestedUsers: [],
+        storedUser:{}
     }
 
     checkIfUserLikedListing() {
@@ -115,6 +114,7 @@ class ListingDetailComponent extends React.Component {
         listingSendObject['city'] = this.props.city
         listingSendObject['state'] = this.props.state
         const address = this.state.listing.address
+        console.log (address)
         listingSendObject['zipCode'] = address.slice(address.length-5,address.length)
 
         // const parts = address.split(',')

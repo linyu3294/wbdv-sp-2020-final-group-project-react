@@ -4,7 +4,6 @@ import UserService from "../../services/UserService";
 import LoginService from "../../services/LoginService";
 import HomeService from "../../services/HomeService";
 import { Slide } from 'react-slideshow-image';
-import { Fade } from 'react-slideshow-image';
 
 
 class HomeComponent extends React.Component {
@@ -107,17 +106,25 @@ class HomeComponent extends React.Component {
         return (
             //http://localhost:3000/mobile/AL/2915148844/for_rent/8866996974
              <div>
-                 {this.state.fetchedSimilarListings &&
+                 {this.state.fetchedSimilarListings && this.state.listings.properties &&
                  console.log(this.state.listings)}
 
-                {this.state.fetchedSimilarListings &&
-                this.state.listings.properties.map
-                (eachListing =>
-                    <div>
-                        <a href={`http://localhost:3000/${eachListing.city.toLowerCase()}/${eachListing.state_code}/${eachListing.listing_id}/${eachListing.prop_status}/${eachListing.property_id}/suggested`
-                        }> {eachListing.address}</a>
+                {this.state.fetchedSimilarListings && this.state.listings.properties  &&
+                <div className="slide-container">
+                    <Slide {...this.slideShowProps}>
+                            {this.state.listings.properties.map
+                                    (eachListing =>
+                                    <div className="each-slide">
+                                        <a href={`http://localhost:3000/${eachListing.city.toLowerCase()}/${eachListing.state_code}/${eachListing.listing_id}/${eachListing.prop_status}/${eachListing.property_id}/suggested`}>
+                                            {eachListing.address} {eachListing.city} {eachListing.state_code} -- ${eachListing.price}/mo
+                                            <img className = 'home-image' src={eachListing.photo_url}
+                                        />
+                                        </a>
+                                    </div>
+                                    )}
+                            </Slide>
                     </div>
-                )}
+                }
             </div>
         )
     }
