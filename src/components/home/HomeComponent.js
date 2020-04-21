@@ -3,6 +3,7 @@ import "./HomeComponent.css"
 import UserService from "../../services/UserService";
 import LoginService from "../../services/LoginService";
 import HomeService from "../../services/HomeService";
+import ListingService from "../../services/ListingService";
 import { Slide } from 'react-slideshow-image';
 
 
@@ -14,7 +15,8 @@ class HomeComponent extends React.Component {
             listings: {},
             profile: {},
             likedListings: {},
-            fetchedSimilarListings: false
+            fetchedSimilarListings: false,
+            usersWhoLikedAListingState: []
         }
     }
 
@@ -30,8 +32,7 @@ class HomeComponent extends React.Component {
 
         if (this.state.fetchedSimilarListings === false
             && this.state.profile.username != null
-            && this.state.profile.likedListings.length != 0
-        ){
+            && this.state.profile.likedListings.length != 0) {
             // console.log(this.state.profile)
             // console.log(this.state.profile.likedListings)
             // console.log(this.state.profile.likedListings[0].listing_id)
@@ -65,6 +66,24 @@ class HomeComponent extends React.Component {
         }))
     }
 
+
+    recommendListings = () => {
+        return (
+            //http://localhost:3000/mobile/AL/2915148844/for_rent/8866996974
+             <div>
+                 {this.state.fetchedSimilarListings &&
+                 console.log(this.state.listings)}
+
+                {this.state.fetchedSimilarListings &&
+                this.state.listings.properties.map(eachListing =>
+                    <div key={eachListing.listing_id}>
+                        <a href={`http://localhost:3000/${eachListing.city.toLowerCase()}/${eachListing.state_code}/${eachListing.listing_id}/${eachListing.prop_status}/${eachListing.property_id}/suggested`
+                        }> {eachListing.address}</a>
+                    </div>
+                )}
+            </div>
+        )
+    }
 
     slideShowProps = {
         duration: 5000,
@@ -101,7 +120,6 @@ class HomeComponent extends React.Component {
         )
     }
 
-
     recommendListings = () => {
         return (
             //http://localhost:3000/mobile/AL/2915148844/for_rent/8866996974
@@ -128,7 +146,6 @@ class HomeComponent extends React.Component {
             </div>
         )
     }
-
 
     render() {
         return (
@@ -164,13 +181,25 @@ class HomeComponent extends React.Component {
                             {this.state.profile.username != null  && this.state.profile.likedListings.length == 0 &&
                             <p className="lead">You Currently have No Liked Listing. Start Your Next Search! </p>}
 
-                            {this.state.profile.username != null  && this.state.profile.likedListings.length > 0 &&
+                            {this.state.profile.username != null  && this.state.profile.userType == "RENTER" && this.state.profile.likedListings.length > 0 &&
                             <p className="lead">Here are Some Suggested Listings Based on Your Liked Listings!</p>}
 
+                            {this.state.profile.username != null  && this.state.profile.userType == "LANDLORD" && this.state.profile.likedListings.length > 0 &&
+                            <p className="lead">Take a look at some users who have liked one of your listings!</p>}
+
                             {this.state.profile.username == null   && this.slideshow()}
-                            {this.state.profile.username != null  && this.recommendListings()}
 
+                            {
+                            this.state.profile.username != null 
+                                && this.state.profile.userType == "RENTER"  
+                                && this.recommendListings()
+                            }
 
+                            {
+                            this.state.profile.username != null 
+                                && this.state.profile.userType == "LANDLORD"  
+                                && this.recommendListings()
+                            }
 
 
                             <hr className="my-4"/>

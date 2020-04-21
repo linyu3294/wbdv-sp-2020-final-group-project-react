@@ -83,6 +83,7 @@ class LoginComponent extends React.Component {
                          alt="img"/>
                 </div>
 
+
                 <div class="login-box container-fluid">
                     <form class="login">
                         <p class="title">Log in</p>
@@ -93,12 +94,12 @@ class LoginComponent extends React.Component {
 
                         <input type="text"
                                placeholder="Username"
-                               autofocus
+                               autoFocus
                                onChange={(e) =>
                                    this.setUsername(e)}/>
                         <input type="password"
                                placeholder="Password"
-                               autofocus
+                               autoFocus
                                onChange={(e) =>
                                    this.setPassword(e)}/>
                         <br/>

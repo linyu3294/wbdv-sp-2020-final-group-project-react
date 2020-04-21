@@ -17,9 +17,14 @@ img {
 .details-col {
     position: relative;
     top: -80px;
+    justify-content: center;
 }
 
-.top-row, .photos-row, .user-liked-jumbotron {
+.landlord-photo-row {
+    float: right;
+}
+
+.top-row, .photos-row, .user-liked-jumbotron, .address-row, .button-row, .beds-baths-row, .user-liked-jumbotron {
     text-align: center;
     justify-content: center;
 }
