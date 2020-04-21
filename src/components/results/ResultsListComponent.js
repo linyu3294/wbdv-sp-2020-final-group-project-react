@@ -55,7 +55,7 @@ class ResultsListComponent extends React.Component {
     render() {
         return (
             <div className="row">
-                {this.props.listings.length === 0 && <h5>No results</h5>}
+                {this.props.listings.length === 0 && <h5>_No results</h5>}
                 {this.state.combinedListings && this.state.combinedListings.map(listing => (
 
                         <ResultsListItemComponent

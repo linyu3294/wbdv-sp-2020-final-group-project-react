@@ -39,7 +39,7 @@ class CreateListingComponent extends React.Component {
         //     newListing: {...prevsState.newListing, state: this.state.searchState}
         // }))
         ListingService.landlordCreateListing(listing).then(response => {
-            this.props.history.push(`/${this.state.newListing.city}/${this.state.searchState}/${response.listing_id}/for_rent/${response.property_id}`)
+            this.props.history.push(`/search/${this.state.newListing.city}/${this.state.searchState}/${response.listing_id}/for_rent/${response.property_id}`)
         });        
     }
 
@@ -79,14 +79,14 @@ class CreateListingComponent extends React.Component {
                 <p className="lead">
                     <form>
                         <div className="form-group">
-                                <label for="firstNameInput">City</label>
+                                <label htmlFor="firstNameInput">City</label>
                                 <input type="text" id="firstNameInput"
                                        onChange={(e) => this.state.newListing.city = e.target.value}
-                                       class="form-control" placeholder="City"/>
+                                       className="form-control" placeholder="City"/>
                         </div>
 
                         <div className="form-group">
-                            <label For="stateInput">State</label>
+                            <label htmlFor="stateInput">State</label>
                             <select id="stateInput" className="form-control" value={this.state.searchState} onChange={(e) => this.setSearchState(e)}>
                                 <option value="AL">Alabama</option>
                                 <option value="AK">Alaska</option>
@@ -151,22 +151,22 @@ class CreateListingComponent extends React.Component {
                             />
                         </div>
                         <div className="form-group">
-                            <label for="phoneInput">Address</label>
-                            <input type="phone" class="form-control"
+                            <label htmlFor="phoneInput">Address</label>
+                            <input type="phone" className="form-control"
                                    onChange={(e) => this.state.newListing.address = e.target.value}
                                    id="phoneInput" placeholder="Enter the address"/>
                         </div>
 
                         <div className="form-group">
-                            <label for="zipcodeInput">Zip code</label>
-                            <input type="text" class="form-control"
+                            <label htmlFor="zipcodeInput">Zip code</label>
+                            <input type="text" className="form-control"
                                    onChange={(e) => this.state.newListing.zipCode = e.target.value}
                                    id="zipcodeInput" placeholder="Enter the zip code"/>
                         </div>
 
                         <div className="form-group">
                             <label for="usernameInput">Beds</label>
-                            <input type="text" class="form-control"
+                            <input type="text" className="form-control"
                                    onChange={(e) => this.state.newListing.beds = e.target.value}
                                    id="usernameInput" placeholder="Enter the number of beds"/>
                         </div>

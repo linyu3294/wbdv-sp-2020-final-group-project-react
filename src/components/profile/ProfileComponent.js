@@ -45,7 +45,7 @@ class ProfileComponent extends React.Component {
     getUserProfile = () => {
     UserService.getProfile().then(actualResponse => {
         console.log(actualResponse)
-            this.setState({profile: actualResponse})
+        this.setState({profile: actualResponse})
     })
     }
 
@@ -223,16 +223,17 @@ class ProfileComponent extends React.Component {
                                         }
                                     </Fragment>
                                     }
+
                                     { this.state.profile.userType == "LANDLORD" &&
-                                <Fragment>
-                                <h2 className="display-6">Your owned listings</h2>
-                                        { this.state.profile.ownedListing &&
-                                            this.state.profile.ownedListing.map((listing, index) => 
+                                    <Fragment>
+                                    <h1 className="display-4">Your owned listings</h1>
+                                        { this.state.profile.ownedListings &&
+                                            this.state.profile.ownedListings.map((listing, index) => 
                                                 <ResultsListItemComponent
-                                                key={listing.property_id}
-                                                listing={listing}
-                                                cityQuery={listing.city}
-                                                stateQuery={listing.state}
+                                                    key={listing.property_id}
+                                                    listing={listing}
+                                                    cityQuery={listing.city}
+                                                    stateQuery={listing.state}
                                                 />
                                             )
                                         }

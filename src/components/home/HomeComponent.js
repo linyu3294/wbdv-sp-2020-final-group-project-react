@@ -111,8 +111,7 @@ class HomeComponent extends React.Component {
                  console.log(this.state.listings)}
 
                 {this.state.fetchedSimilarListings &&
-                this.state.listings.properties.map
-                (eachListing =>
+                this.state.listings.properties.map(eachListing =>
                     <div>
                         <a href={`http://localhost:3000/${eachListing.city.toLowerCase()}/${eachListing.state_code}/${eachListing.listing_id}/${eachListing.prop_status}/${eachListing.property_id}/suggested`
                         }> {eachListing.address}</a>
