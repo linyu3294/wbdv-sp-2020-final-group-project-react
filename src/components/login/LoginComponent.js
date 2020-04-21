@@ -12,7 +12,7 @@ class LoginComponent extends React.Component {
     state = {
         username: '',
         password: '',
-        status: ''
+        failedLogin: false
     }
 
     // current cycle has state, but once state passes through store, it becomes the previous props
@@ -35,14 +35,21 @@ class LoginComponent extends React.Component {
         )
     }
 
+
+
     login = () => {
         LoginService.login(this.state.username, this.state.password)
             .then(response => {
-                if (response) {
+                console.log("Login Response == ", response)
+                if ("userId" in response) {
                     this.props.history.push('/')
-                } else {
-                    this.rejectMessage()
                 }
+                else {
+                    this.setState(prevState => ({
+                        ...prevState,
+                        failedLogin: true
+                    }))
+                   }
                 })
     }
 
@@ -76,27 +83,25 @@ class LoginComponent extends React.Component {
                          alt="img"/>
                 </div>
 
+
                 <div class="login-box container-fluid">
                     <form class="login">
                         <p class="title">Log in</p>
-                        {this.state.status === 'false' &&
-                         <div>
-                             <div className="list-group-item-danger">
-                                 Invalid username and/or password!
-                             </div>
-                             <br></br>
-                         </div>}
+
+
+                             {this.state.failedLogin &&
+                             this.rejectMessage()}
+
                         <input type="text"
                                placeholder="Username"
-                               autofocus
+                               autoFocus
                                onChange={(e) =>
                                    this.setUsername(e)}/>
                         <input type="password"
                                placeholder="Password"
-                               autofocus
+                               autoFocus
                                onChange={(e) =>
                                    this.setPassword(e)}/>
-                        <a className="forgot-password" href="#">Forgot your password?</a>
                         <br/>
                         <a className="new-user" href="/register">New User? Register here</a>
                         <button type="button"
