@@ -159,7 +159,6 @@ class ListingDetailComponent extends React.Component {
     }
 
     userLikeListing = (listingId) => {
-
         UserService.likeListing(listingId)
             .then(response => {
                 console.log(response)
@@ -470,19 +469,3 @@ const stateToPropertyMapper = (state) => {
 
 export default connect(stateToPropertyMapper)(ListingDetailComponent)
 
-
-//  {/* <div className="jumbotron bg-dark text-white">
-
-//                                 <div className="container">
-//                                     <h1 className="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>
-//                                     <p className="lead">{this.state.listing.address}</p>
-//                                     { this.state.userLikesThisListing === false && this.state.profile.userId != null 
-//                                     &&
-//                                     <button onClick={() => this.userLikeListing(this.props.listingId)} 
-//                                         className="btn btn-warning like-button">Like this listing</button>
-//                                     }
-//                                     { this.state.userLikesThisListing === true &&
-//                                         <button className="btn btn-warning">You Like This Listing!</button>
-//                                     }
-//                                 </div>
-//                             </div> */}

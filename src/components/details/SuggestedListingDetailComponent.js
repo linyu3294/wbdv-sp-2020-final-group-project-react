@@ -60,6 +60,7 @@ class SuggestedListingDetailComponent extends React.Component {
         listingSendObject['beds'] = this.state.listing.beds
         listingSendObject['price_raw'] = this.state.listing.price
         listingSendObject['zipCode'] = this.state.listing.address.postal_code
+        listingSendObject['photo'] = this.state.listing.photo.href
 
 
         // listingSendObject['aa']
@@ -111,6 +112,9 @@ class SuggestedListingDetailComponent extends React.Component {
                                     <h1 class="display-4"><h1>Price: ${this.state.listing.price}/mo</h1></h1>
                                     {/*<p class="lead">{this.state.listing.address}</p>*/}
                                     <button onClick={() => this.userLikeListing(this.state.listing.listing_id)} class="btn btn-warning">Like this listing</button>
+                                    { this.state.userLikesThisListing === true &&
+                                    <button className="btn btn-warning">You Like This Listing!</button>
+                                    }
                                 </div>
                             </div>
                         </div>
