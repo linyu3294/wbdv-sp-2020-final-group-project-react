@@ -72,6 +72,10 @@ class ProfileComponent extends React.Component {
             this.setState({
                 profile: updatedUser
             })
+
+                // this.setState(prevState => ({
+                //     l: {...prevState.listing}
+                // }))
         }
         });
     }
@@ -150,8 +154,8 @@ class ProfileComponent extends React.Component {
                                         <div className="form-group">
                                             <label htmlFor="usernameInput">Username:                         
                                             <input
-                                                placeholder={this.state.profile.username}
-                                                onChange={(e) => this.state.profile.username = e.target.value}
+                                                defaultValue={this.state.profile.username}
+                                                onChange={(e) => this.setState({profile: {...this.state.profile, username: e.target.value}})}
                                             />
                                             </label>
 
@@ -159,8 +163,8 @@ class ProfileComponent extends React.Component {
                                         <div className="form-group">
                                             <label htmlFor="firstNameInput">First name:                         
                                             <input
-                                                placeholder={this.state.profile.firstName}
-                                                onChange={(e) => this.state.profile.firstName = e.target.value}
+                                                defaultValue={this.state.profile.firstName}
+                                                onChange={(e) => this.setState({profile: {...this.state.profile, firstName: e.target.value}})}
                                             />
                                             </label>
 
@@ -168,8 +172,8 @@ class ProfileComponent extends React.Component {
                                         <div className="form-group">
                                         <label htmlFor="lastNameInput">Last name:                     
                                         <input
-                                                placeholder={this.state.profile.lastName}
-                                                onChange={(e) => this.state.profile.lastName = e.target.value}
+                                                defaultValue={this.state.profile.lastName}
+                                                onChange={(e) => this.setState({profile: {...this.state.profile, lastName: e.target.value}})}
                                             />
                                             </label>
 
@@ -177,8 +181,8 @@ class ProfileComponent extends React.Component {
                                         <div className="form-group">
                                             <label htmlFor="emailInput">Email:                         
                                             <input
-                                                placeholder={this.state.profile.email}
-                                                onChange={(e) => this.state.profile.email = e.target.value}
+                                                defaultValue={this.state.profile.email}
+                                                onChange={(e) => this.setState({profile: {...this.state.profile, email: e.target.value}})}
                                             />
                                             </label>
 
@@ -186,8 +190,8 @@ class ProfileComponent extends React.Component {
                                         <div className="form-group">
                                             <label htmlFor="phoneInput">Phone:                         
                                             <input
-                                                placeholder={this.state.profile.phone}
-                                                onChange={(e) => this.state.profile.phone = e.target.value}
+                                                defaultValue={this.state.profile.phone}
+                                                onChange={(e) => this.setState({profile: {...this.state.profile, phone: e.target.value}})}
                                             />
                                             </label>
 

@@ -38,9 +38,28 @@ export const findLandlordForListing = (listingId) =>
 
 
 
+export const landlordEditListing = (listing, listingId) => {
+    fetch(`http://localhost:8080/api/listings/landlord/edit/${listingId}`,{
+        method: "PUT",
+        body: JSON.stringify(listing),
+        headers: {
+            'content-type': 'application/json'
+        },
+        credentials: "include"
+    }).then(response => response.json())
+}
+
+export const getListingDetails = (listingId) =>
+    fetch(`http://localhost:8080/api/listings/${listingId}`, {
+        method: 'GET',
+        credentials: "include"
+    }).then(response => response.json())
+
 export default {
     saveListing,
     landlordCreateListing,
     findInterestedUsers,
+    getListingDetails,
+    landlordEditListing,
     findLandlordForListing
 }

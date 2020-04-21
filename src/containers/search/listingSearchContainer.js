@@ -14,6 +14,7 @@ import PrivacyPageComponent from "../../components/privacy/PrivacyPageComponent"
 import HomeComponent from "../../components/home/HomeComponent";
 import SuggestedListingDetailComponent from "../../components/details/SuggestedListingDetailComponent";
 import CreateListingComponent from "../../components/create-listing/CreateListingComponent";
+import EditListingComponent from "../../components/edit-listing/EditListingComponent";
 
 
 const rootReducer = combineReducers({
@@ -156,6 +157,15 @@ class ListingSearchContainer extends React.Component{
                         </div>
                     }>
                     </Route>
+
+                    <Route path="/editlisting/:listingId" exact={true} render={(props) =>
+                        <div>
+                            <EditListingComponent
+                                history={props.history}
+                                listingId={props.match.params.listingId}
+                            />
+                        </div>
+                    }></Route>
 
                 </div>
             </Provider>
