@@ -147,8 +147,14 @@ class ListingSearchContainer extends React.Component{
                     }
                     >
                     </Route>
-                    <Route path={"/createlisting"}>
-                        <CreateListingComponent/>
+                    
+                    <Route path="/createlisting" exact={true} render={(props) =>
+                        <div>
+                            <CreateListingComponent
+                                history={props.history}
+                            />
+                        </div>
+                    }>
                     </Route>
 
                 </div>

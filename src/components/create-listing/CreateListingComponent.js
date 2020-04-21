@@ -11,13 +11,12 @@ class CreateListingComponent extends React.Component {
             address: "",
             beds:"",
             baths:"",
-            prop_status: "for_rent"
-
+            prop_status: "for_rent",
+            zipCode:""
         },
         searchState: "AL",
         passwordMatch: false,
         profile:{},
-        searchState:"AL",
     }
 
     componentDidMount() {
@@ -39,9 +38,9 @@ class CreateListingComponent extends React.Component {
         // this.setState(prevsState => ({
         //     newListing: {...prevsState.newListing, state: this.state.searchState}
         // }))
-        ListingService.landlordCreateListing(listing);
-
-        alert("saved listing")
+        ListingService.landlordCreateListing(listing).then(response => {
+            this.props.history.push(`/${this.state.newListing.city}/${this.state.searchState}/${response.listing_id}/for_rent/${response.property_id}`)
+        });        
     }
 
     getUserProfile = () => {
@@ -65,7 +64,7 @@ class CreateListingComponent extends React.Component {
 
     render() {
         return (
-            <div class="jumbotron">
+            <div className="jumbotron">
                 {
                     this.state.profile.userId == null &&
                     <h4>You are not logged in. <a href="/login">Go to login</a> to create a listing.</h4>
@@ -75,18 +74,18 @@ class CreateListingComponent extends React.Component {
                 this.state.profile.userId &&
                 <Fragment>
                 <a href="/">Home</a>
-                <h1 class="display-4">Create a new listing.</h1>
-                <p class="lead">Enter the city, state, address, beds, and baths.</p>
-                <p class="lead">
+                <h1 className="display-4">Create a new listing.</h1>
+                <p className="lead">Enter the city, state, address, beds, and baths.</p>
+                <p className="lead">
                     <form>
-                        <div class="form-group">
+                        <div className="form-group">
                                 <label for="firstNameInput">City</label>
                                 <input type="text" id="firstNameInput"
                                        onChange={(e) => this.state.newListing.city = e.target.value}
                                        class="form-control" placeholder="City"/>
                         </div>
 
-                        <div class="form-group">
+                        <div className="form-group">
                             <label For="stateInput">State</label>
                             <select id="stateInput" className="form-control" value={this.state.searchState} onChange={(e) => this.setSearchState(e)}>
                                 <option value="AL">Alabama</option>
@@ -151,15 +150,21 @@ class CreateListingComponent extends React.Component {
                                    onChange={(e) => this.state.newListing.price_raw = e.target.value}
                             />
                         </div>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label for="phoneInput">Address</label>
                             <input type="phone" class="form-control"
                                    onChange={(e) => this.state.newListing.address = e.target.value}
                                    id="phoneInput" placeholder="Enter the address"/>
-
                         </div>
 
-                        <div class="form-group">
+                        <div className="form-group">
+                            <label for="zipcodeInput">Zip code</label>
+                            <input type="text" class="form-control"
+                                   onChange={(e) => this.state.newListing.zipCode = e.target.value}
+                                   id="zipcodeInput" placeholder="Enter the zip code"/>
+                        </div>
+
+                        <div className="form-group">
                             <label for="usernameInput">Beds</label>
                             <input type="text" class="form-control"
                                    onChange={(e) => this.state.newListing.beds = e.target.value}
