@@ -101,6 +101,7 @@ class ProfileComponent extends React.Component {
                 <div className="row">
                     <div className="col-sm-8">
                         <div className="jumbotron">
+                        <h1 className="display-4">Profile</h1>
                             <div className="row">
                             
                                 <div className="col-sm-3">
@@ -280,6 +281,7 @@ class ProfileComponent extends React.Component {
                 <div className="row">
                     <div className="col-sm-8">
                         <div className="jumbotron">
+                        <h1 className="display-4">Profile</h1>
                             <div className="row">
                             
                                 <div className="col-sm-3">
@@ -321,6 +323,7 @@ class ProfileComponent extends React.Component {
                             </div>                     
                         </div>
                         <div className="col-sm-4 listings-column">
+                            { this.state.profile.userType == "RENTER" &&
                             <div className="jumbotron bg-gradient-secondary">
                                 <h2 className="display-6">{this.state.profile.firstName}'s Liked Listings</h2>
                                         { this.state.profile.likedListings &&
@@ -334,6 +337,22 @@ class ProfileComponent extends React.Component {
                                             )
                                         }
                             </div>
+                            }
+                            { this.state.profile.userType == "LANDLORD" &&
+                            <div className="jumbotron bg-gradient-secondary">
+                                <h2 className="display-6">{this.state.profile.firstName}'s Owned Listings</h2>
+                                        { this.state.profile.ownedListings &&
+                                            this.state.profile.ownedListings.map((listing, index) => 
+                                                <ResultsListItemComponent
+                                                key={listing.property_id}
+                                                listing={listing}
+                                                cityQuery={listing.city}
+                                                stateQuery={listing.state}
+                                                />
+                                            )
+                                        }
+                            </div>
+                            }
                         </div>
                 </div>
 

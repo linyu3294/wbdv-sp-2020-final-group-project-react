@@ -135,8 +135,6 @@ class ListingDetailComponent extends React.Component {
 
     checkIfUserLikedListing() {
         this.state.profile.likedListings.forEach((element, index, array) => {
-            console.log(element.listing_id + "")
-            console.log(this.state.listing.listing_id)
             if ((element.listing_id + "") === this.state.listing.listing_id) {
                 this.setState({
                     userLikesThisListing: true
@@ -225,6 +223,9 @@ class ListingDetailComponent extends React.Component {
                                                 <h4>
                                                 Cell: {this.state.landLord.phone}
                                                 </h4>
+                                                <button>
+                                                    <Link to={`/profile/${this.state.landLord.userId}`}><h5>View Profile</h5></Link>
+                                                </button>
                                             </div>
                                             
                                         </div>
@@ -356,6 +357,9 @@ class ListingDetailComponent extends React.Component {
                                                 <h4>
                                                 Cell: {this.state.landLord.phone}
                                                 </h4>
+                                                <button>
+                                                    <Link to={`/profile/${this.state.landLord.userId}`}><h5>View Profile</h5></Link>
+                                                </button>
                                             </div>
                                             
                                         </div>
