@@ -120,19 +120,6 @@ class ListingDetailComponent extends React.Component {
     }
 
     userLikeListing = (listingId) => {
-
-        // const listingSendObject = 
-        // (({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }) => 
-        // ({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }))(this.state.listing);
-        // listingSendObject['city'] = this.props.city
-        // listingSendObject['state'] = this.props.state
-        // const address = this.state.listing.address
-        // listingSendObject['zipCode'] = address.slice(address.length-5,address.length)
-
-        // console.log("sending: ")
-        // console.log(listingSendObject)
-        // ListingService.saveListing(listingSendObject)
-
         UserService.likeListing(listingId)
             .then(response => {
                 console.log(response)
