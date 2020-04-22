@@ -53,12 +53,12 @@ const urlEnd = "&offset=0"
     }
 
     export const getStoredListings = async (city, state) => {
-        return await fetch(`http://localhost:8080/api/listings/search/${city}/${state}`)
+        return await fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/listings/search/${city}/${state}`)
             .then(response => response.json())
     }
 
     export const getStoredListingById = async (listingId) => {
-        return await fetch(`http://localhost:8080/api/listings/${listingId}`)
+        return await fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/listings/${listingId}`)
             .then(response => response.json())
     }
 

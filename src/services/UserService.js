@@ -1,6 +1,6 @@
 export const createUser = (user) =>
     // fetch(`https://gentle-waters-31699.herokuapp.com/api/users/`, {
-        fetch(`http://localhost:8080/api/register`, {
+        fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/register`, {
         method: "POST",
         body: JSON.stringify(user),
         headers: {
@@ -10,25 +10,25 @@ export const createUser = (user) =>
     }).then(response => response.json())
 
 export const getProfile = () =>
-    fetch('http://localhost:8080/api/profile', {
+    fetch('https://enigmatic-atoll-63616.herokuapp.com/api/profile', {
         method: 'POST',
         credentials: "include"
     }).then(response => response.json())
 
 export const getProfileForGuest = (profileId) =>
-fetch(`http://localhost:8080/api/profile/${profileId}`, {
+fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/profile/${profileId}`, {
     method: 'GET',
     credentials: "include"
 }).then(response => response.json())
 
 export const likeListing = (listingId) =>
-fetch(`http://localhost:8080/api/details/${listingId}`, {
+fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/details/${listingId}`, {
     method: 'POST',
     credentials: "include"
 }).then(response => response.json())
 
 export const updateProfile = (profile) =>
-fetch(`http://localhost:8080/api/profile`, {
+fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/profile`, {
     method: "PUT",
     body: JSON.stringify(profile),
     headers: {
@@ -38,7 +38,7 @@ fetch(`http://localhost:8080/api/profile`, {
 }).then(response => response.json())
 
 export const findLandlords = () =>
-    fetch(`http://localhost:8080/api/landlords`, {
+    fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/landlords`, {
         method: 'GET',
         credentials: "include"
     }).then(response => response.json())

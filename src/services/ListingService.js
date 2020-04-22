@@ -1,7 +1,7 @@
 import React from "react";
 
 export const saveListing = (listing) =>
-fetch(`http://localhost:8080/api/listings`, {
+fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/listings`, {
     method: "POST",
     body: JSON.stringify(listing),
     headers: {
@@ -12,14 +12,14 @@ fetch(`http://localhost:8080/api/listings`, {
 
 
 export const findInterestedUsers = (listingId) =>
-fetch(`http://localhost:8080/api/listings/${listingId}/users`, {
+fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/listings/${listingId}/users`, {
     method: 'GET',
     credentials: "include"
 }).then(response => response.json())
 
 
 export const landlordCreateListing = (listing) => 
-    fetch(`http://localhost:8080/api/listings/landlord/create`, {
+    fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/listings/landlord/create`, {
         method: "POST",
         body: JSON.stringify(listing),
         headers: {
@@ -31,7 +31,7 @@ export const landlordCreateListing = (listing) =>
 
 
 export const findLandlordForListing = (listingId) => 
-    fetch(`http://localhost:8080/api/listings/${listingId}/landlord`, {
+    fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/listings/${listingId}/landlord`, {
         method: 'GET',
         credentials: "include"
     }).then(response => response.json())
@@ -39,7 +39,7 @@ export const findLandlordForListing = (listingId) =>
 
 
 export const landlordEditListing = (listing, listingId) => {
-    fetch(`http://localhost:8080/api/listings/landlord/edit/${listingId}`,{
+    fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/listings/landlord/edit/${listingId}`,{
         method: "PUT",
         body: JSON.stringify(listing),
         headers: {
@@ -50,7 +50,7 @@ export const landlordEditListing = (listing, listingId) => {
 }
 
 export const getListingDetails = (listingId) =>
-    fetch(`http://localhost:8080/api/listings/${listingId}`, {
+    fetch(`https://enigmatic-atoll-63616.herokuapp.com/api/listings/${listingId}`, {
         method: 'GET',
         credentials: "include"
     }).then(response => response.json())
