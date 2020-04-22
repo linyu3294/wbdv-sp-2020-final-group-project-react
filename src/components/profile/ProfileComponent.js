@@ -3,6 +3,7 @@ import UserService from '../../services/UserService';
 import LoginService from "../../services/LoginService";
 import ResultsListItemComponent from "../results/ResultListItemComponent";
 import "./ProfileComponentStyles.css"
+import ResultListOwnedItemComponent from "../results/ResultListOwnedItemComponent";
 
 class ProfileComponent extends React.Component {
 
@@ -234,7 +235,7 @@ class ProfileComponent extends React.Component {
                                     <h1 className="display-4">Your owned listings</h1>
                                         { this.state.profile.ownedListings &&
                                             this.state.profile.ownedListings.map((listing, index) => 
-                                                <ResultsListItemComponent
+                                                <ResultListOwnedItemComponent
                                                     key={listing.property_id}
                                                     listing={listing}
                                                     cityQuery={listing.city}

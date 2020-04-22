@@ -62,8 +62,13 @@ class SearchBarComponent extends React.Component{
     render() {
         return (
             <div id="search-component-div">
-                <a href="/">Home</a>
-                <div>
+
+                <div className="search-container">
+                    <a className="home-button-link" href="/">
+                        <button className="btn btn-primary home-button">
+                            Home
+                        </button>
+                    </a>
                     <img className="banner-image"
                          src={require('../../Rent_match.png')} height="250" alt="img"/>
                     {

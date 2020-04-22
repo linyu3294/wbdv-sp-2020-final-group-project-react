@@ -54,17 +54,19 @@ class ResultsListComponent extends React.Component {
 
     render() {
         return (
-            <div className="row">
-                {this.props.listings.length === 0 && <h5>_No results</h5>}
-                {this.state.combinedListings && this.state.combinedListings.map(listing => (
+            <div className="container-fluid">
+                {this.props.listings.length === 0 && <h5>No results</h5>}
+                <div className="row">
+                    {this.state.combinedListings && this.state.combinedListings.map(listing => (
 
                         <ResultsListItemComponent
-                        key={listing.property_id}
-                        cityQuery = {this.props.cityQuery}
-                        stateQuery = {this.props.stateQuery}
-                        listing={listing}
+                            key={listing.property_id}
+                            cityQuery = {this.props.cityQuery}
+                            stateQuery = {this.props.stateQuery}
+                            listing={listing}
                         />
-                ))}
+                    ))}
+                </div>
 
             </div>
         )

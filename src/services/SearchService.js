@@ -14,8 +14,7 @@ const urlEnd = "&offset=0"
         city: city_param,
         state_code: state_code_param,
         offset: 0,
-        sort: "relevance",
-        limit: 10
+        sort: "relevance"
     })
 
     return await fetch(`${url}`, {
