@@ -47,7 +47,7 @@ class EditListingComponent extends React.Component {
 
     saveListing = (listing, listingId) => {
         console.log(ListingService.landlordEditListing(listing, listingId))
-        this.props.history.push(`/${this.state.listing.city}/${this.state.listing.state}/${listingId}/for_rent/${this.state.listing.property_id}`)
+        this.props.history.push(`/search/${this.state.listing.city}/${this.state.listing.state}/${listingId}/for_rent/${this.state.listing.property_id}`)
 
         // console.log(this.state.listing)
     }
@@ -61,13 +61,7 @@ class EditListingComponent extends React.Component {
     setSearchState = (e) => {
         let newState = e.target.value;
         this.setState( prevState => ({
-
-                newListing: {
-                    ...prevState.newListing,
-                    state: newState
-                },
-
-                searchState: newState
+                listing: {...this.state.listing, state: newState}
             })
         )}
 
@@ -107,8 +101,8 @@ class EditListingComponent extends React.Component {
                                 <div className="form-group">
                                     <label For="stateInput">State</label>
                                     <select id="stateInput" className="form-control"
-                                            defaultValue={this.state.listing.state}
-                                            onChange={(e) => this.setSearchState({   listing: {...this.state.listing,   state: e.target.value }})}>
+                                            value={this.state.listing.state}
+                                            onChange={(e) => this.setSearchState(e)}>
                                         <option value="AL">Alabama</option>
                                         <option value="AK">Alaska</option>
                                         <option value="AZ">Arizona</option>

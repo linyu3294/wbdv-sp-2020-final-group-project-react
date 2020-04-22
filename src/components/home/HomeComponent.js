@@ -122,7 +122,6 @@ class HomeComponent extends React.Component {
 
     recommendListings = () => {
         return (
-            //http://localhost:3000/mobile/AL/2915148844/for_rent/8866996974
              <div>
                  {this.state.fetchedSimilarListings && this.state.listings.properties !== null &&
                  console.log(this.state.listings)}
