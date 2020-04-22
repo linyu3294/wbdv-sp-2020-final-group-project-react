@@ -1,7 +1,7 @@
-Team Five
-Duncan Echols-Jones, Benjamin Starke, Joshua Dick, Yu Lin
-4/21/2020
-CS5610 Final Project: Rent Match
+Team Five<br/>
+Duncan Echols-Jones, Benjamin Starke, Joshua Dick, Yu Lin<br/>
+4/21/2020<br/>
+CS5610 Final Project: Rent Match<br/>
 
 ---------------------------------------------------------------------------------------------------------------
 How to build, compile, and run Rent Match React/Redux/Java/MySQL Application
