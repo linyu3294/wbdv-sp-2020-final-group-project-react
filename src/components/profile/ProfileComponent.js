@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import UserService from '../../services/UserService';
 import LoginService from "../../services/LoginService";
 import ResultsListItemComponent from "../results/ResultListItemComponent";
@@ -32,54 +32,57 @@ class ProfileComponent extends React.Component {
 
     handleEditMode = () => {
         this.setState({
-            editingMode: !this.state.editingMode
-        })
+                          editingMode: !this.state.editingMode
+                      })
     }
 
     getUserProfileForGuest = (userId) => {
-    UserService.getProfileForGuest(userId).then(actualResponse => {
-        console.log(actualResponse)
+        UserService.getProfileForGuest(userId).then(actualResponse => {
+            console.log(actualResponse)
             this.setState({profile: actualResponse})
-    })
+        })
     }
 
     getUserProfile = () => {
-    UserService.getProfile().then(actualResponse => {
-        console.log(actualResponse)
-        this.setState({profile: actualResponse})
-    })
+        UserService.getProfile().then(actualResponse => {
+            console.log(actualResponse)
+            this.setState({profile: actualResponse})
+        })
     }
 
     logout = () => {
         LoginService.logout()
-        .then(this.setState({
-            profile: {}
-        }))
+            .then(this.setState({
+                                    profile: {}
+                                }))
     }
 
     saveProfileChanges = () => {
         this.handleEditMode();
         UserService.updateProfile(this.state.profile)
-        .then(updatedUser => {
-            if (updatedUser.username == "username already taken!!") {
-                alert("That username is already taken! Try again.")
-                this.setState({
-                    profile: {
-                        ...this.state.profile,
-                        username: "---"
-                    }
-                })
-            } else {
-            this.setState({
-                profile: updatedUser
-            })
-
-                // this.setState(prevState => ({
-                //     l: {...prevState.listing}
-                // }))
-        }
-        });
+            .then(updatedUser => {
+                if (updatedUser.username == "username already taken!!") {
+                    alert("That username is already taken! Try again.")
+                    this.setState({
+                                      profile: {
+                                          ...this.state.profile,
+                                          username: "---"
+                                      }
+                                  })
+                } else {
+                    this.setState({
+                                      profile: updatedUser
+                                  })
+                }
+            });
     }
+
+// <div id="login-component">
+// <div className="login-background">
+// <img className="login-background-image"
+// src='https://architectureandinteriordesign.files.wordpress.com/2013/07/pretty-house.jpg'
+// alt="img"/>
+// </div>
 
     render() {
         return (
@@ -260,123 +263,124 @@ class ProfileComponent extends React.Component {
             </div>
         }
 
-        { this.state.visitor === true &&
+                    {this.state.visitor === true &&
 
-            <Fragment>
+                     <Fragment>
 
-            { this.state.profile.userId == null &&
-                <div className="jumbotron">
-                    <h4>Can't find that user. <a href="/">Go home</a></h4>
-                </div>
-            }
+                         {this.state.profile.userId == null &&
+                          <div className="jumbotron">
+                              <h4>Can't find that user. <a href="/">Go home</a></h4>
+                          </div>
+                         }
 
-            {this.state.profile.userId != null &&
+                         {this.state.profile.userId != null &&
 
-            <div className="container-fluid">
+                          <div className="container-fluid">
+                              <div className="row">
+                                  <button onClick={() => this.logout()}
+                                          className="btn btn-danger btn-md logout-button"
+                                          href="#"
+                                          role="button">Log out
+                                  </button>
+                              </div>
+                              <div className="row">
+                                  <div className="col-sm-8">
+                                      <div className="jumbotron">
+                                          <div className="row">
 
+                                              <div className="col-sm-3">
 
+                                                  <img
+                                                      className="profile-picture"
+                                                      src={require('../../profilepicture.png')}
+                                                      alt="Profile Picture"
+                                                  />
+                                                  <br/>
+                                                  <p className="lead">
+                                                      <div className="form-group">
+                                                          <label htmlFor="firstNameInput"><h6>First
+                                                              name: {this.state.profile.firstName}</h6>
+                                                          </label>
+                                                      </div>
+                                                      <div className="form-group">
+                                                          <label htmlFor="lastNameInput"><h6>Last
+                                                              name: {this.state.profile.lastName}</h6>
+                                                          </label>
+                                                      </div>
+                                                  </p>
+                                              </div>
+                                              <div className="col-sm-9">
 
-                <div className="row">
-                    <button onClick={() => this.logout()} 
-                        className="btn btn-danger btn-md logout-button" 
-                        href="#"
-                        role="button">Log out
-                    </button>
-                </div>
-                <div className="row">
-                    <div className="col-sm-8">
-                        <div className="jumbotron">
-                        <h1 className="display-4">Profile</h1>
-                            <div className="row">
-                            
-                                <div className="col-sm-3">
+                                                  <p className="lead">Here
+                                                      are {this.state.profile.firstName}'s
+                                                      details.</p>
 
-                                    <img
-                                        className="profile-picture" 
-                                        src={require('../../profilepicture.png')} 
-                                        alt="Profile Picture"
-                                    />
-                                    <br/>
-                                    <p className="lead">
-                                        <div className="form-group">
-                                            <label htmlFor="firstNameInput">First name: {this.state.profile.firstName}</label>
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="lastNameInput">Last name: {this.state.profile.lastName}</label>
-                                        </div>
-                                    </p>
-                                </div>  
-                                <div className="col-sm-9">
-                                    
-                                    <p className="lead">Here are {this.state.profile.firstName}'s details.</p>
-                                    
-                                    <p className="lead">
-                                        <form>
-                                            <div className="form-group">
-                                                <label htmlFor="usernameInput">Username: {this.state.profile.username}</label>
-                                            </div>
-                                        </form>
-                                    
-                                    
-                                        <a href="/">Home</a>
-                                        <br/>
-                                        <a href="/search">Go to search</a>
-                                    </p>
+                                                  <p className="lead">
+                                                      <form>
+                                                          <div className="form-group">
+                                                              <label
+                                                                  htmlFor="usernameInput">Username: {this.state.profile.username}</label>
+                                                          </div>
+                                                      </form>
+                                                      <a href="/search">Go to search</a>
+                                                  </p>
 
-                                    </div>
-                                </div>
-                            </div>                     
-                        </div>
-                        <div className="col-sm-4 listings-column">
-                            { this.state.profile.userType == "RENTER" &&
-                            <div className="jumbotron bg-gradient-secondary">
-                                <h2 className="display-6">{this.state.profile.firstName}'s Liked Listings</h2>
-                                        { this.state.profile.likedListings &&
-                                            this.state.profile.likedListings.map((listing, index) => 
-                                                <ResultsListItemComponent
-                                                key={listing.property_id}
-                                                listing={listing}
-                                                cityQuery={listing.city}
-                                                stateQuery={listing.state}
-                                                />
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div className="col-sm-4 listings-column">
+                                      {this.state.profile.userType == "RENTER" &&
+                                       <div className="jumbotron bg-gradient-secondary">
+                                           <h2 className="display-6">{this.state.profile.firstName}'s
+                                               Liked Listings</h2>
+                                           {this.state.profile.likedListings &&
+                                            this.state.profile.likedListings.map((listing, index) =>
+                                                                                     <ResultsListItemComponent
+                                                                                         key={listing.property_id}
+                                                                                         listing={listing}
+                                                                                         cityQuery={listing.city}
+                                                                                         stateQuery={listing.state}
+                                                                                     />
                                             )
-                                        }
-                            </div>
-                            }
-                            { this.state.profile.userType == "LANDLORD" &&
-                            <div className="jumbotron bg-gradient-secondary">
-                                <h2 className="display-6">{this.state.profile.firstName}'s Owned Listings</h2>
-                                        { this.state.profile.ownedListings &&
-                                            this.state.profile.ownedListings.map((listing, index) => 
-                                                <ResultsListItemComponent
-                                                key={listing.property_id}
-                                                listing={listing}
-                                                cityQuery={listing.city}
-                                                stateQuery={listing.state}
-                                                />
+                                           }
+                                       </div>
+                                      }
+                                      {this.state.profile.userType == "LANDLORD" &&
+                                       <div className="jumbotron bg-gradient-secondary">
+                                           <h2 className="display-6">{this.state.profile.firstName}'s
+                                               Owned Listings</h2>
+                                           {this.state.profile.ownedListings &&
+                                            this.state.profile.ownedListings.map((listing, index) =>
+                                                                                     <ResultsListItemComponent
+                                                                                         key={listing.property_id}
+                                                                                         listing={listing}
+                                                                                         cityQuery={listing.city}
+                                                                                         stateQuery={listing.state}
+                                                                                     />
                                             )
-                                        }
-                            </div>
-                            }
-                        </div>
-                </div>
-
+                                           }
+                                       </div>
+                                      }
+                                  </div>
+                              </div>
+                          </div>
+                         }
+                     </Fragment>
+                    }
+                </Fragment>
             </div>
-            }
-            </Fragment>
-        }
-        </Fragment>          
         )
     }
 
 }
 
 export default ProfileComponent
+// {/* <input type="file"
+//     id="avatar" name="avatar"
+//     accept="image/png, image/jpeg"
+//     onChange={(e) => this.state.photo = e.target.value}/>
 
-  // {/* <input type="file"
-  //     id="avatar" name="avatar"
-  //     accept="image/png, image/jpeg"
-  //     onChange={(e) => this.state.photo = e.target.value}/>
+// <img src={this.state.photo} alt="Profile Picture"></img> */}
 
-  // <img src={this.state.photo} alt="Profile Picture"></img> */}
 

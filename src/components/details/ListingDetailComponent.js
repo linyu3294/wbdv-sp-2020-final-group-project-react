@@ -35,14 +35,16 @@ class ListingDetailComponent extends React.Component {
                     console.log(this.state.listing)
                 })
                 console.log(this.state.listing)
-
-                fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.googleSearchListingString}&key=AIzaSyC75gsTAWrMRR9ErLo2jwakIk-uHMu9378`)
-                .then(response => response.json()).then(result => 
-                    this.setState({
-                        googleLat: result.results[0].geometry.location.lat,
-                        googleLon: result.results[0].geometry.location.lng
-                    }))
-
+                    fetch(
+                        `https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.googleSearchListingString}&key=AIzaSyC75gsTAWrMRR9ErLo2jwakIk-uHMu9378`)
+                        .then(response => response.json()).then(result => {
+                            if (result.status !== "ZERO_RESULTS"){
+                                this.setState({
+                                      googleLat: result.results[0].geometry.location.lat,
+                                      googleLon: result.results[0].geometry.location.lng
+                                  })
+                            }
+                        })
                 ListingService.findInterestedUsers(this.state.listing.listing_id)
                 .then(actualUsers => {
                     this.setState({
@@ -52,7 +54,7 @@ class ListingDetailComponent extends React.Component {
             })
             .then(console.log(this.state.listing.listing_id))
 
-            
+
 
         // If this is a listing coming back from our API
         } else {
@@ -66,11 +68,11 @@ class ListingDetailComponent extends React.Component {
                     this.setState({
                         listing: pageListing[0]
                     })
-                    
+
                     this.getUserProfile()
 
-                    const listingSendObject = 
-                    (({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }) => 
+                    const listingSendObject =
+                    (({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }) =>
                     ({ property_id, listing_id, prop_status, address, price_raw, beds, baths, photo }))(this.state.listing);
                     listingSendObject['city'] = this.props.city
                     listingSendObject['state'] = this.props.state
@@ -180,7 +182,7 @@ class ListingDetailComponent extends React.Component {
                     <div className="jumbotron jumbotron-fluid header-jumbotron">
                     <div className="row">
                         <div className="col-sm-6 details-col">
-                        
+
                             <h1 className="display-4">Listing details</h1>
                             <h6 className="lead">Find out more about this listing.</h6>
 
@@ -198,7 +200,7 @@ class ListingDetailComponent extends React.Component {
                                 </div>
                                 <div className="row button-row">
                                     { this.state.userLikesThisListing === false && this.state.profile.userId != null &&
-                                    <button onClick={() => this.userLikeListing(this.props.listingId)} 
+                                    <button onClick={() => this.userLikeListing(this.props.listingId)}
                                         className="btn btn-warning like-button">Like this listing</button>
                                     }
                                     { this.state.userLikesThisListing === true &&
@@ -226,12 +228,12 @@ class ListingDetailComponent extends React.Component {
                                                     <Link to={`/profile/${this.state.landLord.userId}`}><h5>View Profile</h5></Link>
                                                 </button>
                                             </div>
-                                            
+
                                         </div>
                                     }
                                 </div>
                             }
-                            
+
                         </div>
 
                         { this.state.googleSearchListingString &&
@@ -250,12 +252,12 @@ class ListingDetailComponent extends React.Component {
                         <img src={require('./homeforsale.jpg')}/>
                     </div>
                 </div>
-                
+
                     <div className="row">
 
                         <div className="col-sm-4 liked-listing-col">
 
-                        
+
                             <div className="jumbotron bg-muted user-liked-jumbotron">
 
                                 {
@@ -267,13 +269,13 @@ class ListingDetailComponent extends React.Component {
                                 <h1 className="display-9">Users who liked this listing:</h1>
                                     // <p className="lead">Users who liked this listing:</p>
                                 }
-                                
+
                                 {
                                     this.state.interestedUsers &&
 
-                                    this.state.interestedUsers.map((user, index) => 
+                                    this.state.interestedUsers.map((user, index) =>
                                     <div key={user.userId} className="card" style={{width: 18+"rem"}}>
-                                        <img className="card-img-top" src={require('../../profilepicture.png')} 
+                                        <img className="card-img-top" src={require('../../profilepicture.png')}
                                             alt="Card image cap"/>
                                         <div className="card-body">
                                         <h5 className="card-title">{user.firstName} {user.lastName}</h5>
@@ -290,7 +292,7 @@ class ListingDetailComponent extends React.Component {
                         </div>
 
                         <div className="col-sm-8">
-                            
+
                         { this.state.googleSearchListingString &&
                         <div className="col-sm-6 google-image-col">
                             <iframe
@@ -301,7 +303,7 @@ class ListingDetailComponent extends React.Component {
                             </iframe>
                         </div>
                         }
-                            
+
                         </div>
                     </div>
                 }
@@ -314,7 +316,7 @@ class ListingDetailComponent extends React.Component {
 
                 this.state.userCreatedListing == false &&
                 <Fragment>
-                
+
 
                 <img src={require('./logo.png')} className="logo" alt="img" width="50" height="50"/>
                 <span><a href="/">Back to home</a>
@@ -331,9 +333,9 @@ class ListingDetailComponent extends React.Component {
                             <div className="row top-row">
                                 <h1 className="display-4"><h1>Price: ${this.state.listingInfo.listing.price}/mo</h1></h1>
                                 <p className="lead">{this.state.listing.address}</p>
-                                { this.state.userLikesThisListing === false && this.state.profile.userId != null 
+                                { this.state.userLikesThisListing === false && this.state.profile.userId != null
                                 &&
-                                <button onClick={() => this.userLikeListing(this.props.listingId)} 
+                                <button onClick={() => this.userLikeListing(this.props.listingId)}
                                     className="btn btn-warning like-button">Like this listing</button>
                                 }
                                 { this.state.userLikesThisListing === true &&
@@ -360,7 +362,7 @@ class ListingDetailComponent extends React.Component {
                                                     <Link to={`/profile/${this.state.landLord.userId}`}><h5>View Profile</h5></Link>
                                                 </button>
                                             </div>
-                                            
+
                                         </div>
                                     }
                             </div>
@@ -376,13 +378,13 @@ class ListingDetailComponent extends React.Component {
                                 src={`https://www.google.com/maps/embed/v1/streetview?key=AIzaSyC75gsTAWrMRR9ErLo2jwakIk-uHMu9378&location=${this.state.listing.lat},${this.state.listing.lon}`} allowFullScreen>
                             </iframe>
                         </div>
-                        
-                        
+
+
                     </div>
 
 
                     <div className="row photos-row">
-                            
+
                             { this.state.listingInfo.listing &&
                             this.state.listingInfo.listing.photos.map(photo => (
                                     <img src={photo.href}/>
@@ -393,14 +395,14 @@ class ListingDetailComponent extends React.Component {
 
 
 
-                
+
                 {
                     this.state.listingInfo.listing &&
                     <div className="row">
 
                         <div className="col-sm-6">
 
-                        
+
                             <div className="jumbotron bg-muted user-liked-jumbotron">
 
                                 {
@@ -412,13 +414,13 @@ class ListingDetailComponent extends React.Component {
                                 <h1 className="display-9">Users who have liked this listing</h1>
                                     // <p className="lead">Users who liked this listing:</p>
                                 }
-                                
+
                                 {
                                     this.state.interestedUsers &&
 
-                                    this.state.interestedUsers.map((user, index) => 
+                                    this.state.interestedUsers.map((user, index) =>
                                     <div className="card" style={{width: 18+"rem"}}>
-                                        <img className="card-img-top" src={require('../../profilepicture.png')} 
+                                        <img className="card-img-top" src={require('../../profilepicture.png')}
                                             alt="Card image cap"/>
                                         <div className="card-body">
                                         <h5 className="card-title">{user.firstName} {user.lastName}</h5>
@@ -435,7 +437,7 @@ class ListingDetailComponent extends React.Component {
                         </div>
 
                         <div className="col-sm-6">
-                            
+
                             <div className="row">
 
                                 	<iframe
@@ -444,15 +446,15 @@ class ListingDetailComponent extends React.Component {
                                         frameBorder="0" style={{border:0}}
                                         src={`https://maps.google.com/?q=${this.state.listing.lat},${this.state.listing.lon}&output=svembed`} allowFullScreen>
                                     </iframe>
-                                <img 
+                                <img
                                 src={this.state.listingInfo.listing.photo.href}
                                 alt="Property image"
                                 />
                             </div>
-                            
+
                         </div>
                     </div>
-                } 
+                }
                 </Fragment>
             }
             </div>

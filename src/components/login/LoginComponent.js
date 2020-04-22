@@ -40,7 +40,6 @@ class LoginComponent extends React.Component {
     login = () => {
         LoginService.login(this.state.username, this.state.password)
             .then(response => {
-                console.log("Login Response == ", response)
                 if ("userId" in response) {
                     this.props.history.push('/')
                 }
@@ -52,17 +51,6 @@ class LoginComponent extends React.Component {
                    }
                 })
     }
-
-    // handleLogin = (response) => {
-    //     console.log(response)
-    //     //this.setState({status: response.status})
-    //     if (response) {
-    //         this.props.history.push('/')
-    //     } else {
-    //         this.rejectMessage()
-    //     }
-    // }
-
     rejectMessage = () => {
         return (
             <div>
@@ -82,8 +70,6 @@ class LoginComponent extends React.Component {
                          src='https://architectureandinteriordesign.files.wordpress.com/2013/07/pretty-house.jpg'
                          alt="img"/>
                 </div>
-
-
                 <div class="login-box container-fluid">
                     <form class="login">
                         <p class="title">Log in</p>
