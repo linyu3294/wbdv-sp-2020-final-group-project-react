@@ -6,8 +6,8 @@ CS5610 Final Project: Rent Match<br/>
 ---------------------------------------------------------------------------------------------------------------
 How to build, compile, and run Rent Match React/Redux/Java/MySQL Application
 
-1. Run the middle-tier Java server with Heroku URL:
-2. Run the React front-end with Heroku URL: 
+1. Run the middle-tier Java server with Heroku URL: https://enigmatic-atoll-63616.herokuapp.com/
+2. Run the React front-end with Heroku URL: https://shrouded-refuge-32209.herokuapp.com/
 3. You will arrive first at the Home Page. Feel free to take a look at the privacy policy page before using our platform. 
 4. Click on the “Register” button and create a few users with the “Landlord” role. Initially, we had a data.sql file that would pre-populate the database with a few Landlord users (so that every listing had a dummy Landlord whose profile could be visited), but had issues with dependencies upon deployment.
 5. From here, you can either sign out as a user and browse listings or other users’ profiles as either anonymous user, a renter, or a landlord, with custom content on each page depending on what role you are. If you are not logged in, you will not be able to access some pages.
