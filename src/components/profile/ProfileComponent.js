@@ -369,7 +369,6 @@ class ProfileComponent extends React.Component {
                      </Fragment>
                     }
                 </Fragment>
-            </div>
         )
     }
 
