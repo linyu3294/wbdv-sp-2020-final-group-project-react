@@ -124,7 +124,7 @@ class HomeComponent extends React.Component {
         return (
             //http://localhost:3000/mobile/AL/2915148844/for_rent/8866996974
              <div>
-                 {this.state.fetchedSimilarListings && this.state.listings.properties &&
+                 {this.state.fetchedSimilarListings && this.state.listings.properties !== null &&
                  console.log(this.state.listings)}
 
                 {this.state.fetchedSimilarListings && this.state.listings.properties  &&
@@ -179,29 +179,24 @@ class HomeComponent extends React.Component {
                             <p className="lead">Connect with Local Landlords to Find your Perfect Home!</p>}
 
                             {this.state.profile.username != null  && this.state.profile.likedListings.length == 0 &&
-                            <p className="lead">You Currently have No Liked Listing. Start Your Next Search! </p>}
+                            <p className="lead">You Currently have no liked listings. Start your next search! </p>}
 
                             {this.state.profile.username != null  && this.state.profile.userType == "RENTER" && this.state.profile.likedListings.length > 0 &&
-                            <p className="lead">Here are Some Suggested Listings Based on Your Liked Listings!</p>}
+                            <p className="lead">Here are some suggested listings based on what you've liked!</p>}
 
                             {this.state.profile.username != null  && this.state.profile.userType == "LANDLORD" && this.state.profile.likedListings.length > 0 &&
-                            <p className="lead">Take a look at some users who have liked one of your listings!</p>}
-
+                            <p className="lead">Here are some suggested listings based on what you've liked!</p>}
                             {this.state.profile.username == null   && this.slideshow()}
-
                             {
                             this.state.profile.username != null 
                                 && this.state.profile.userType == "RENTER"  
                                 && this.recommendListings()
                             }
-
                             {
                             this.state.profile.username != null 
                                 && this.state.profile.userType == "LANDLORD"  
                                 && this.recommendListings()
                             }
-
-
                             <hr className="my-4"/>
                             <p>A large subset of the housing population is renters and landlords.
                                 Currently, there is no platform that connects potential renters to
